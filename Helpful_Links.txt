@@ -1,0 +1,12 @@
+NI Software- https://www.ni.com/en-us/support/downloads/drivers/download.frc-game-tools.html#333285
+	- includes driver station and roborio image
+WPiLib: https://docs.wpilib.org/en/latest/
+	-has useful tips and tricks for programing a FiRST Robot
+java tutorials: 
+https://www.w3schools.com/java/
+	- has compiler built into website.
+https://courses.caveofprogramming.com/courses/enrolled/2081
+	- 9 hour inclusive video series for java.  Uses its own compiler and programs
+
+
+
