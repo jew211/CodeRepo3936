@@ -7,6 +7,8 @@ https://www.w3schools.com/java/
 	- has compiler built into website.
 https://courses.caveofprogramming.com/courses/enrolled/2081
 	- 9 hour inclusive video series for java.  Uses its own compiler and programs
+github cheatsheet:
+https://github.github.com/training-kit/downloads/github-git-cheat-sheet.pdf
 
 
 
