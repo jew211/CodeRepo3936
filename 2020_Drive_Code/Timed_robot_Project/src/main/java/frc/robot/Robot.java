@@ -10,8 +10,9 @@ package frc.robot;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import edu.wpi.first.wpilibj.VictorSP;
+import edu.wpi.first.wpilibj.PWMVictorSPX;
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.AnalogInput;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -24,9 +25,30 @@ public class Robot extends TimedRobot {
   private static final String kDefaultAuto = "Default";
   private static final String kCustomAuto = "My Auto";
   //set up of motor controller for victor sp
-  private static final VictorSP climbMotor = new VictorSP(0);
+  private static final PWMVictorSPX climbMotor = new PWMVictorSPX(0);
   //set up a generic joystick
   private static final Joystick m_joystick = new Joystick(0);
+
+   // distance in inches the robot wants to stay from an object
+  private static final double kHoldDistance = 12.0;
+
+   // factor to convert sensor values to a distance in inches
+  private static final double kValueToInches = 0.125;
+ 
+   // proportional speed constant
+  private static final double kP = 0.05;
+
+  private static final int kLeftMotorPort = 0;
+  private static final int kRightMotorPort = 1;
+  private static final int kUltrasonicPort = 0;
+
+  private final AnalogInput m_ultrasonic = new AnalogInput(kUltrasonicPort);
+ // private final DifferentialDrive m_robotDrive
+   //   = new DifferentialDrive(new PWMVictorSPX(kLeftMotorPort),
+     // new PWMVictorSPX(kRightMotorPort));
+
+
+  
 
   private String m_autoSelected;
   private final SendableChooser<String> m_chooser = new SendableChooser<>();
@@ -93,6 +115,13 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void teleopPeriodic() {
+
+    // sensor returns a value from 0-4095 that is scaled to inches
+    double currentDistance = m_ultrasonic.getValue() * kValueToInches;
+
+    // convert distance error to a motor speed
+    double currentSpeed = (kHoldDistance - currentDistance) * kP;
+    
     climbMotor.set(m_joystick.getRawAxis(0)*.25); //example code set a motor from controller
   }
 
