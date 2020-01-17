@@ -12,6 +12,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.PWMVictorSPX;
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.AnalogInput;
 
 /**
@@ -24,11 +25,21 @@ import edu.wpi.first.wpilibj.AnalogInput;
 public class Robot extends TimedRobot {
   private static final String kDefaultAuto = "Default";
   private static final String kCustomAuto = "My Auto";
+  //setting up ports for drive motors and sensors
+  private static final int kLeftMotorPort = 0;
+  private static final int kRightMotorPort = 1;
+  private static final int climbMotorPort = 2;
+  private static final int kUltrasonicPort = 0;
+
+
   //set up of motor controller for victor sp
-  private static final PWMVictorSPX climbMotor = new PWMVictorSPX(0);
+  private static final PWMVictorSPX climbMotor = new PWMVictorSPX(climbMotorPort);
+  private static final PWMVictorSPX kRightMoter = new PWMVictorSPX(kRightMotorPort);
+  private static final PWMVictorSPX kLeftMotor = new PWMVictorSPX(kLeftMotorPort);
   //set up a generic joystick
   private static final Joystick m_joystick = new Joystick(0);
-
+  //set up a drive train
+  private static final DifferentialDrive driveTrain = new DifferentialDrive(kLeftMotor, kRightMoter);
    // distance in inches the robot wants to stay from an object
   private static final double kHoldDistance = 12.0;
 
@@ -38,9 +49,7 @@ public class Robot extends TimedRobot {
    // proportional speed constant
   private static final double kP = 0.05;
 
-  private static final int kLeftMotorPort = 0;
-  private static final int kRightMotorPort = 1;
-  private static final int kUltrasonicPort = 0;
+  
 
   private final AnalogInput m_ultrasonic = new AnalogInput(kUltrasonicPort);
  // private final DifferentialDrive m_robotDrive
@@ -115,7 +124,8 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void teleopPeriodic() {
-
+    //Drive Code
+    driveTrain.arcadeDrive(m_joystick.getY(), m_joystick.getX());
     // sensor returns a value from 0-4095 that is scaled to inches
     double currentDistance = m_ultrasonic.getValue() * kValueToInches;
 
