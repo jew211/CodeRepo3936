@@ -12,8 +12,10 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.PWMVictorSPX;
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.PWMTalonSRX;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.AnalogInput;
+import edu.wpi.first.wpilibj.Talon;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -30,10 +32,11 @@ public class Robot extends TimedRobot {
   private static final int kRightMotorPort = 1;
   private static final int climbMotorPort = 2;
   private static final int kUltrasonicPort = 0;
+ 
 
 
   //set up of motor controller for victor sp
-  private static final PWMVictorSPX climbMotor = new PWMVictorSPX(climbMotorPort);
+  private static final PWMTalonSRX climbMotor = new PWMTalonSRX(climbMotorPort);
   private static final PWMVictorSPX kRightMoter = new PWMVictorSPX(kRightMotorPort);
   private static final PWMVictorSPX kLeftMotor = new PWMVictorSPX(kLeftMotorPort);
   //set up a generic joystick
@@ -132,8 +135,8 @@ public class Robot extends TimedRobot {
     // convert distance error to a motor speed
     double currentSpeed = (kHoldDistance - currentDistance) * kP;
     
-    climbMotor.set(m_joystick.getRawAxis(0)*.25); //example code set a motor from controller
-  }
+    climbMotor.set(m_joystick.getRawAxis(3)); //example code set a motor from controller
+  
 
   /**
    * This function is called periodically during test mode.
