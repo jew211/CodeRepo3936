@@ -10,6 +10,12 @@ package frc.robot;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.Talon;
+
+//Inport the can controllers
+import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
+import com.ctre.phoenix.motorcontrol.InvertType;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -24,6 +30,12 @@ public class Robot extends TimedRobot {
   private String m_autoSelected;
   private final SendableChooser<String> m_chooser = new SendableChooser<>();
 
+  //Set up the Device ID's for the CAN Controller
+  WPI_TalonSRX Talon1 = new WPI_TalonSRX(1);
+
+  //Set up a Joystick for control
+  Joystick test_joystick = new Joystick(0);
+
   /**
    * This function is run when the robot is first started up and should be
    * used for any initialization code.
@@ -33,6 +45,9 @@ public class Robot extends TimedRobot {
     m_chooser.setDefaultOption("Default Auto", kDefaultAuto);
     m_chooser.addOption("My Auto", kCustomAuto);
     SmartDashboard.putData("Auto choices", m_chooser);
+
+    //Set the Talons to Factory Defaults
+    Talon1.configFactoryDefault();
   }
 
   /**
@@ -86,8 +101,10 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void teleopPeriodic() {
+    Talon1.set(test_joystick.getRawAxis(1));
   }
 
+   
   /**
    * This function is called periodically during test mode.
    */
