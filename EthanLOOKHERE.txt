@@ -1,0 +1,18 @@
+Ethan I am not able to make it to practice tonight.  Leaving instructions to update the CAN Devices.  
+Ralph should be able to help if you have questions.
+
+Go to this Website
+https://www.ctr-electronics.com/talon-srx.html#product_tabs_technical_resources
+1. Click 2020 firmware update
+2. Download Talon SRX Firmware 20.1 zip file
+3. Read through 2020 firmware update guide
+4. Test motor
+5. if(motor == motor.running())
+   { 
+      Ethan.DoHappyDance();
+   }
+   else
+   {
+      Ethan.TrySteps3And4();
+   }
+
