@@ -32,6 +32,7 @@ public class Robot extends TimedRobot {
 
   //Set up the Device ID's for the CAN Controller
   WPI_TalonSRX Talon1 = new WPI_TalonSRX(1);
+  WPI_TalonSRX Talon2 = new WPI_TalonSRX(2);
 
   //Set up a Joystick for control
   Joystick test_joystick = new Joystick(0);
@@ -48,6 +49,10 @@ public class Robot extends TimedRobot {
 
     //Set the Talons to Factory Defaults
     Talon1.configFactoryDefault();
+
+    //reverse right drive
+    Talon2.setInverted(false);
+    Talon1.setInverted(true);
   }
 
   /**
@@ -102,6 +107,11 @@ public class Robot extends TimedRobot {
   @Override
   public void teleopPeriodic() {
     Talon1.set(test_joystick.getRawAxis(1));
+    Talon2.set(test_joystick.getRawAxis(3));
+
+    //Display the Value of the Joystick to the smart dashboard, for troubleshooting
+    SmartDashboard.putNumber("Left Y Joystick", test_joystick.getRawAxis(1));
+    SmartDashboard.putNumber("Right Y Joystick", test_joystick.getRawAxis(3));
   }
 
    
