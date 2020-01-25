@@ -141,6 +141,7 @@ public class Robot extends TimedRobot {
     
     climbMotor.set(m_joystick.getRawAxis(3)); //example code set a motor from controller
   
+    SmartDashboard.putNumber("Ultrasonic", currentDistance);
   }
   /**
    * This function is called periodically during test mode.
