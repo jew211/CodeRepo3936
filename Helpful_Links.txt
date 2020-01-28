@@ -10,5 +10,14 @@ https://courses.caveofprogramming.com/courses/enrolled/2081
 github cheatsheet:
 https://github.github.com/training-kit/downloads/github-git-cheat-sheet.pdf
 
+How to Install Vendor Libraries
+https://docs.wpilib.org/en/latest/docs/software/wpilib-overview/3rd-party-libraries.html
+
+Library Download for Rev v3 Color Sensor
+http://www.revrobotics.com/rev-31-1557/
+-Included in 2020 Kit of Parts
+
+Color Sensor Example code
+https://github.com/REVrobotics/Color-Sensor-v3-Examples
 
 
