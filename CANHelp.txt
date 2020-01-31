@@ -1,0 +1,16 @@
+How to update firmware on CAN motor Controller
+Go to this Website
+https://www.ctr-electronics.com/talon-srx.html#product_tabs_technical_resources
+1. Click 2020 firmware update
+2. Download Talon SRX Firmware 20.1 zip file
+3. Read through 2020 firmware update guide on website.
+4. Test motor using CAN Test Code on CTRE Website
+5. if(motor == motor.running())
+   { 
+      Person.DoHappyDance();
+   }
+   else
+   {
+      Person.TrySteps3And4();
+   }
+
