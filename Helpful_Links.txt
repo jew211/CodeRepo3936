@@ -20,4 +20,7 @@ http://www.revrobotics.com/rev-31-1557/
 Color Sensor Example code
 https://github.com/REVrobotics/Color-Sensor-v3-Examples
 
+Using all commands in WPILib
+https://stemrobotics.cs.pdx.edu/sites/default/files/WPILib_programming.pdf
+
 
