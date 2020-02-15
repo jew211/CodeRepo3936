@@ -139,9 +139,9 @@ public class Robot extends TimedRobot {
     // convert distance error to a motor speed
     double currentSpeed = (kHoldDistance - currentDistance) * kP;
     
-    climbMotor.set(m_joystick.getRawAxis(3)); //example code set a motor from controller
+    climbMotor.set(m_joystick.getRawAxis(1)); //example code set a motor from controller
   
-    SmartDashboard.putNumber("Ultrasonic", currentDistance);
+    //SmartDashboard.putNumber("Ultrasonic", currentDistance);
   }
   /**
    * This function is called periodically during test mode.
