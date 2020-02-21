@@ -23,4 +23,8 @@ https://github.com/REVrobotics/Color-Sensor-v3-Examples
 Using all commands in WPILib
 https://stemrobotics.cs.pdx.edu/sites/default/files/WPILib_programming.pdf
 
+Encoder Tutorial
+https://docs.wpilib.org/en/latest/docs/software/sensors/encoders-software.html
+
+
 
