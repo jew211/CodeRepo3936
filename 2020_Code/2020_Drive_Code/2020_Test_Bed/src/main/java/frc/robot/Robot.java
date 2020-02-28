@@ -7,8 +7,12 @@
 
 package frc.robot;
 
+import java.lang.reflect.Array;
+import java.util.Arrays;
+
 //Import the can controllers
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
+import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 
 import edu.wpi.first.wpilibj.I2C;
 import edu.wpi.first.wpilibj.Joystick;
@@ -17,6 +21,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.util.Color;
 import edu.wpi.first.wpilibj.VictorSP;
+import edu.wpi.first.wpilibj.Encoder;
 
 import com.revrobotics.ColorSensorV3;
 import com.revrobotics.ColorMatchResult;
@@ -30,6 +35,15 @@ import com.revrobotics.ColorMatch;
  * project.
  */
 public class Robot extends TimedRobot {
+
+  int colorOn;
+
+  int colorSwitch;
+
+  String colorString;
+
+  VictorSP testMotor = new VictorSP(0);
+
   private static final String kDefaultAuto = "Default";
   private static final String kCustomAuto = "My Auto";
   private String m_autoSelected;
@@ -42,6 +56,11 @@ public class Robot extends TimedRobot {
   //Set up ports for PWM Controllers
   public static final int aux1motorport = 0;
   VictorSP Aux1 = new VictorSP(aux1motorport);
+
+  WPI_VictorSPX EncoderTest = new WPI_VictorSPX(4);
+
+  //Setup for encoder
+  Encoder leftEncoder = new Encoder(0,1);
 
   //Set up a Joystick for control
   Joystick test_joystick = new Joystick(0);
@@ -58,6 +77,8 @@ public class Robot extends TimedRobot {
   private final Color kRedTarget = ColorMatch.makeColor(0.561, 0.232, 0.114);
   private final Color kYellowTarget = ColorMatch.makeColor(0.361, 0.524, 0.113);
 
+  String[] colortarget = new String[]{"Red", "Green", "Blue", "Yellow"};
+
 
   /**
    * This function is run when the robot is first started up and should be
@@ -65,9 +86,15 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void robotInit() {
-    m_chooser.setDefaultOption("Default Auto", kDefaultAuto);
-    m_chooser.addOption("My Auto", kCustomAuto);
-    SmartDashboard.putData("Auto choices", m_chooser);
+
+    
+
+    leftEncoder.setDistancePerPulse(1./2048.);
+    leftEncoder.reset();
+
+    //m_chooser.setDefaultOption("Default Auto", kDefaultAuto);
+    //m_chooser.addOption("My Auto", kCustomAuto);
+    //SmartDashboard.putData("Auto choices", m_chooser);
 
     m_colorMatcher.addColorMatch(kBlueTarget);
     m_colorMatcher.addColorMatch(kGreenTarget);
@@ -92,6 +119,7 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void robotPeriodic() {
+    SmartDashboard.putNumber("EncoderValue", leftEncoder.getRaw());
   }
 
   /**
@@ -117,24 +145,16 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void autonomousPeriodic() {
-    switch (m_autoSelected) {
-      case kCustomAuto:
-        // Put custom auto code here
-        break;
-      case kDefaultAuto:
-      default:
-        // Put default auto code here
-        break;
+    testMotor.set(100);
     }
-  }
 
   /**
    * This function is called periodically during operator control.
    */
   @Override
   public void teleopPeriodic() {
-    Talon1.set(100);
-    Talon2.set(100);
+    //Talon1.set(100);
+    //Talon2.set(100);
 
     //Display the Value of the Joystick to the smart dashboard, for troubleshooting
     SmartDashboard.putNumber("Left Y Joystick", test_joystick.getRawAxis(1));
@@ -144,47 +164,35 @@ public class Robot extends TimedRobot {
 
     //Setting for AUX port one, static button hold
     
-    Aux1.set(100);
+    //Aux1.set(100);
     
 
-    String colorString;
+    
     ColorMatchResult match = m_colorMatcher.matchClosestColor(detectedColor);
 
-     int numcolorswitch;
-     numcolorswitch = 0;
 
+    if (match.color == kBlueTarget) {
+      colorString = "Blue";
+    } else if (match.color == kRedTarget) {
+      colorString = "Red";
+    } else if (match.color == kGreenTarget) {
+      colorString = "Green";
+      } else if (match.color == kYellowTarget) {
+      colorString = "Yellow";
+    } else {
+      colorString = "Unknown";
+   }
 
+   while (colorSwitch < 24){
+    colorOn = Arrays.asList(colortarget).indexOf(colorString);
 
+    }
 
-
-    //if (match.color == kBlueTarget) {
-      //colorString = "Blue";
-      //for(1){
-        //numcolorswitch = numcolorswitch + 1;
-      //}
-    //} else if (match.color == kRedTarget) {
-      //colorString = "Red";
-      //for(1){
-        //numcolorswitch = numcolorswitch + 1;
-     // }
-    //} else if (match.color == kGreenTarget) {
-      //colorString = "Green";
-      //for(1){
-        //numcolorswitch = numcolorswitch + 1;
-      //}
-    //} else if (match.color == kYellowTarget) {
-      //colorString = "Yellow";for(1){
-        //numcolorswitch = numcolorswitch + 1;
-     // }
-    //} else {
-      //colorString = "Unknown";
-   // }
-
-    SmartDashboard.putNumber("Red", detectedColor.red);
-    SmartDashboard.putNumber("Green", detectedColor.green);
-    SmartDashboard.putNumber("Blue", detectedColor.blue);
-    SmartDashboard.putNumber("Confidence", match.confidence);
-    //SmartDashboard.putString("Detected Color", colorString);
+    //SmartDashboard.putNumber("Red", detectedColor.red);
+    //SmartDashboard.putNumber("Green", detectedColor.green);
+    //SmartDashboard.putNumber("Blue", detectedColor.blue);
+    //SmartDashboard.putNumber("Confidence", match.confidence);
+    SmartDashboard.putString("Detected Color", colorString);
 
 
   }
@@ -195,5 +203,6 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void testPeriodic() {
+
   }
 }

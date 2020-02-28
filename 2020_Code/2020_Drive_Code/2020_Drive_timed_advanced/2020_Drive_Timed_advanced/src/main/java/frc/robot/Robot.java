@@ -8,16 +8,17 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.TimedRobot;
-import edu.wpi.first.wpilibj.Victor;
+import edu.wpi.first.wpilibj.VictorSP;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.Encoder;
 //import edu.wpi.first.wpilibj.Spark; //Used for motor controller
 
 import java.util.concurrent.TimeUnit;
 
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
-import java.util.concurrent.TimeUnit;
+
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -28,9 +29,13 @@ import java.util.concurrent.TimeUnit;
  */
 public class Robot extends TimedRobot {
 
-  
+  VictorSP PWMTest = new VictorSP(6);
 
   DigitalInput bumpSwitch;
+
+  Encoder leftEncoder = new Encoder(0, 1);
+
+
 
   public static int leftDriveport = 0;
   public static int rightDrivePort = 1;
@@ -53,6 +58,8 @@ public class Robot extends TimedRobot {
 
     SmartDashboard.putNumber("Right", 0);
     SmartDashboard.putNumber("Left", 0);
+
+    leftEncoder.reset();
 
   }
 
@@ -180,8 +187,8 @@ public class Robot extends TimedRobot {
 
   @Override
   public void teleopPeriodic(){
+    PWMTest.set(1);
   }
-
 
   @Override
   public void testInit() {
