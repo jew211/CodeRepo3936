@@ -57,10 +57,13 @@ public class Robot extends TimedRobot {
   public static final int aux1motorport = 0;
   VictorSP Aux1 = new VictorSP(aux1motorport);
 
-  WPI_VictorSPX EncoderTest = new WPI_VictorSPX(4);
+  VictorSP pizzaoffourtune = new VictorSP(3);
+
+  WPI_VictorSPX EncoderTest = new WPI_VictorSPX(1);
 
   //Setup for encoder
   Encoder leftEncoder = new Encoder(0,1);
+
 
   //Set up a Joystick for control
   Joystick test_joystick = new Joystick(0);
@@ -183,15 +186,30 @@ public class Robot extends TimedRobot {
       colorString = "Unknown";
    }
 
+   colorOn = Arrays.asList(colortarget).indexOf(colorString);
    while (colorSwitch < 24){
-    colorOn = Arrays.asList(colortarget).indexOf(colorString);
+    String targetString = (String)Array.get(colortarget, colorOn + 1);
+    do {
+      pizzaoffourtune.set(.5);
+    } while (colorString != targetString);
+    colorSwitch ++;
+
+    if (colorOn == 4){
+      colorOn = -1;
+    }
+
+    SmartDashboard.putNumber("Color Switch", colorSwitch);
+    //Move motor until color is detected
+    //add counting variable
+    //add some logic that makes 4 go back to 0;
+
 
     }
 
-    //SmartDashboard.putNumber("Red", detectedColor.red);
-    //SmartDashboard.putNumber("Green", detectedColor.green);
-    //SmartDashboard.putNumber("Blue", detectedColor.blue);
-    //SmartDashboard.putNumber("Confidence", match.confidence);
+    SmartDashboard.putNumber("Red", detectedColor.red);
+    SmartDashboard.putNumber("Green", detectedColor.green);
+    SmartDashboard.putNumber("Blue", detectedColor.blue);
+    SmartDashboard.putNumber("Confidence", match.confidence);
     SmartDashboard.putString("Detected Color", colorString);
 
 
