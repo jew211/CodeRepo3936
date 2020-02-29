@@ -7,7 +7,6 @@
 
 package frc.robot;
 
-import java.lang.reflect.Array;
 import java.util.Arrays;
 
 import edu.wpi.first.wpilibj.TimedRobot;
@@ -38,11 +37,8 @@ public class Robot extends TimedRobot {
 
   WPI_VictorSPX pizza = new WPI_VictorSPX(4);
 
-  int colorOn;
+  int colorSwitch, targetColor;
 
-  int colorSwitch;
-
-  String colorString;
 
   private final I2C.Port i2cPort = I2C.Port.kOnboard;
 
@@ -55,7 +51,7 @@ public class Robot extends TimedRobot {
   private final Color kRedTarget = ColorMatch.makeColor(0.561, 0.232, 0.114);
   private final Color kYellowTarget = ColorMatch.makeColor(0.361, 0.524, 0.113);
 
-  String[] colortarget = new String[]{"Red", "Green", "Blue", "Yellow"};
+  Color[] colortarget = new Color[]{kRedTarget, kGreenTarget, kBlueTarget, kYellowTarget};
 
 
   /**
@@ -89,12 +85,19 @@ public class Robot extends TimedRobot {
   @Override
   public void teleopPeriodic() {
 
-    Color detectedColor = m_colorSensor.getColor();
+   if (joy1.getRawButton(1)){
 
-    ColorMatchResult match = m_colorMatcher.matchClosestColor(detectedColor);
+   Color detectedColor = m_colorSensor.getColor();
+   ColorMatchResult initmatch = m_colorMatcher.matchClosestColor(detectedColor);
 
-
-    if (match.color == kBlueTarget) {
+    int initIndex = Arrays.asList(colortarget).indexOf(initmatch.color);
+    if (initIndex < 3){
+     targetColor = initIndex ++;
+    }else{
+      targetColor = 0;
+    }
+  
+   /*  if (match.color == kBlueTarget) {
       colorString = "Blue";
     } else if (match.color == kRedTarget) {
       colorString = "Red";
@@ -104,38 +107,17 @@ public class Robot extends TimedRobot {
       colorString = "Yellow";
     } else {
       colorString = "Unknown";
-   }
-
-   if (joy1.getRawButton(1)){
+   } */
+   
      while (colorSwitch < 24){
+        pizza.set(.25);
 
-      if (match.color == kBlueTarget) {
-        colorString = "Blue";
-      } else if (match.color == kRedTarget) {
-        colorString = "Red";
-      } else if (match.color == kGreenTarget) {
-        colorString = "Green";
-        } else if (match.color == kYellowTarget) {
-        colorString = "Yellow";
-      } else {
-        colorString = "Unknown";
-     }
-      colorOn = Arrays.asList(colortarget).indexOf(colorString);
-      SmartDashboard.putNumber("Color Index", colorOn);
-
-      String targetString = (String)Array.get(colortarget, colorOn);
-      SmartDashboard.putString("Color On", targetString);
-
-      do{
-        pizza.set(.5);
-      } while (targetString.equals(colorString));
-     }
-     pizza.set(0);
-     colorSwitch ++;
-     SmartDashboard.putNumber("Color Switch", colorSwitch);
-   }
-  
-  
+        if (detectedColor == colortarget[targetColor]){
+          colorSwitch ++;
+          SmartDashboard.putNumber("Color Switch", colorSwitch);
+        }
+      }
+    }
   }
 
   @Override
