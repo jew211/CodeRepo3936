@@ -8,15 +8,18 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.TimedRobot;
-import edu.wpi.first.wpilibj.VictorSP;
+import edu.wpi.first.wpilibj.PWMVictorSPX;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Encoder;
-//import edu.wpi.first.wpilibj.Spark; //Used for motor controller
+import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.drive.DifferentialDrive;
+import edu.wpi.first.wpilibj.SpeedControllerGroup;
 
 import java.util.concurrent.TimeUnit;
 
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
+import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 
 
 
@@ -29,17 +32,68 @@ import com.ctre.phoenix.motorcontrol.can.TalonSRX;
  */
 public class Robot extends TimedRobot {
 
-  VictorSP PWMTest = new VictorSP(6);
 
+  //Joystick Setup
+  public static int driveJoystickPort = 0;
+  public static int manipJoystickPort = 1;
+
+  Joystick driveJoystick = new Joystick(driveJoystickPort);
+  Joystick manipJoystick = new Joystick(manipJoystickPort);
+
+  //Setup for limitswitch
   DigitalInput bumpSwitch;
 
+  //Encoder Setup
   Encoder leftEncoder = new Encoder(0, 1);
+  Encoder rightEncoder = new Encoder(2, 3);
+
+
+  //Drive Motor Setup
+  public static int leftDrivePort1 = 0;
+  public static int leftDrivePort2 = 1;
+  public static int rightDrivePort1 = 2;
+  public static int rightDrivePort2 = 3;
+
+  PWMVictorSPX leftDrive1 = new PWMVictorSPX(leftDrivePort1);
+  PWMVictorSPX leftDrive2 = new PWMVictorSPX(leftDrivePort2);
+  PWMVictorSPX rightDrive1 = new PWMVictorSPX(rightDrivePort1);
+  PWMVictorSPX rightDrive2 = new PWMVictorSPX(rightDrivePort2);
+
+  SpeedControllerGroup leftDrive = new SpeedControllerGroup(leftDrive1, leftDrive2);
+  SpeedControllerGroup rightDrive = new SpeedControllerGroup(rightDrive1, rightDrive2);
+
+  DifferentialDrive driveBase = new DifferentialDrive(leftDrive, rightDrive);
+
+  //Set up the ID's and controllers for the climb
+  public static int climbID1 = 0;
+  public static int climbID2 = 1;
+  public static int climbID3 = 3;
+
+  TalonSRX climb1 = new TalonSRX(climbID1);
+  TalonSRX climb2 = new TalonSRX(climbID2);
+  TalonSRX climb3 = new TalonSRX(climbID3);
+
+  //Set up the intake lift motors
+  public static int intakeLift1ID = 4;
+  public static int intakeLift2ID = 5;
+
+  VictorSPX intakeLift1 = new VictorSPX(intakeLift1ID);
+  VictorSPX intakeLift2 = new VictorSPX(intakeLift2ID);
+
+  //Set up the intake spinner
+  public static int intakeSpinID = 6;
+
+  VictorSPX intakeSpinner = new VictorSPX(intakeSpinID);
+
+  //Set up the pizza of fourtune
+  public static int pizzaPort = 4;
+
+  PWMVictorSPX pizza = new PWMVictorSPX(pizzaPort);
 
 
 
-  public static int leftDriveport = 0;
-  public static int rightDrivePort = 1;
 
+  //Variable for the autonomous state machine
   int Init_Finished;
   int right;
   int left;
@@ -187,7 +241,9 @@ public class Robot extends TimedRobot {
 
   @Override
   public void teleopPeriodic(){
-    PWMTest.set(1);
+    //Drive code // Check for controller ports;
+    driveBase.arcadeDrive(driveJoystick.getRawAxis(1), driveJoystick.getRawAxis(2));
+    
   }
 
   @Override
