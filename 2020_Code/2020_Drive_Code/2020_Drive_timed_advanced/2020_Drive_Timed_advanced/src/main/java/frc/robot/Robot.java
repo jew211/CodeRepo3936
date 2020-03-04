@@ -7,19 +7,33 @@
 
 package frc.robot;
 
-import edu.wpi.first.wpilibj.TimedRobot;
-import edu.wpi.first.wpilibj.PWMVictorSPX;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import edu.wpi.first.wpilibj.DigitalInput;
-import edu.wpi.first.wpilibj.Encoder;
-import edu.wpi.first.wpilibj.Joystick;
-import edu.wpi.first.wpilibj.drive.DifferentialDrive;
-import edu.wpi.first.wpilibj.SpeedControllerGroup;
+//Import the other files
+import frc.robot.RobotMap; //Allows the use of the robotmap variables
+import frc.robot.ControlMap; //Allows use of the control map variables
 
-import java.util.concurrent.TimeUnit;
+//WPILib imports
+import edu.wpi.first.wpilibj.TimedRobot; //Setup for the settings
+import edu.wpi.first.wpilibj.VictorSP;  //Allows for use of VictorSP sensor
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;  //Use for smart dashboard
+import edu.wpi.first.wpilibj.DigitalInput; //use for limit switch
+import edu.wpi.first.wpilibj.Encoder; //use for encoder
+import edu.wpi.first.wpilibj.Joystick; //use for joystick
+import edu.wpi.first.wpilibj.drive.DifferentialDrive; //Use for arcade drive
+import edu.wpi.first.wpilibj.SpeedControllerGroup; //Use to create a group of Motor Controllers
+import edu.wpi.first.wpilibj.I2C; //use to use I2C port
+import edu.wpi.first.wpilibj.util.Color; //Allows the use of the color variable type
 
-import com.ctre.phoenix.motorcontrol.can.TalonSRX;
-import com.ctre.phoenix.motorcontrol.can.VictorSPX;
+//rev Imports
+import com.revrobotics.ColorMatch; //Allows to match a color to a set coloe
+import com.revrobotics.ColorMatchResult; //Allows to match the color to a set color
+import com.revrobotics.ColorSensorV3; //Allows use of the color senxsor
+
+//CTRE Imports
+import com.ctre.phoenix.motorcontrol.can.TalonSRX; //Allows use of the TalonSRX Controllers
+import com.ctre.phoenix.motorcontrol.can.VictorSPX; //Allows use of the VictorSPX controllers
+
+//Java Language Imports
+import java.util.concurrent.TimeUnit; //llows for the use of seconds in the sleep functions
 
 
 
@@ -32,66 +46,62 @@ import com.ctre.phoenix.motorcontrol.can.VictorSPX;
  */
 public class Robot extends TimedRobot {
 
+  //Setup I2C for color sensor
+  private final I2C.Port i2cPort = I2C.Port.kOnboard;
+
+  //Declare the color sensor
+  private final ColorSensorV3 Pizza_Sensor = new ColorSensorV3(i2cPort);
+
+  //Declare the color match for the color sensor
+  private final ColorMatch Pizza_Sensor_Match = new ColorMatch();
+
+  //Declare the targets for the color sensor
+  private final Color kBlueTarget = ColorMatch.makeColor(0.143, 0.427, 0.429);
+  private final Color kGreenTarget = ColorMatch.makeColor(0.197, 0.561, 0.240);
+  private final Color kRedTarget = ColorMatch.makeColor(0.561, 0.232, 0.114);
+  private final Color kYellowTarget = ColorMatch.makeColor(0.361, 0.524, 0.113);
+
 
   //Joystick Setup
-  public static int driveJoystickPort = 0;
-  public static int manipJoystickPort = 1;
-
-  Joystick driveJoystick = new Joystick(driveJoystickPort);
-  Joystick manipJoystick = new Joystick(manipJoystickPort);
+  Joystick driveJoystick = new Joystick(RobotMap.driveJoystickPort);
+  Joystick manipJoystick = new Joystick(RobotMap.manipJoystickPort);
 
   //Setup for limitswitch
   DigitalInput bumpSwitch;
 
   //Encoder Setup
-  Encoder leftEncoder = new Encoder(0, 1);
-  Encoder rightEncoder = new Encoder(2, 3);
+  Encoder leftEncoder = new Encoder(RobotMap.leftEncoderPort1, RobotMap.leftEncoderPort2);
+  Encoder rightEncoder = new Encoder(RobotMap.rightEncoderPort1, RobotMap.rightEncoderPort2);
 
 
   //Drive Motor Setup
-  public static int leftDrivePort1 = 0;
-  public static int leftDrivePort2 = 1;
-  public static int rightDrivePort1 = 2;
-  public static int rightDrivePort2 = 3;
+  VictorSP leftDrive1 = new VictorSP(RobotMap.leftDrivePort1);
+  VictorSP leftDrive2 = new VictorSP(RobotMap.leftDrivePort2);
+  VictorSP rightDrive1 = new VictorSP(RobotMap.rightDrivePort1);
+  VictorSP rightDrive2 = new VictorSP(RobotMap.rightDrivePort2);
 
-  PWMVictorSPX leftDrive1 = new PWMVictorSPX(leftDrivePort1);
-  PWMVictorSPX leftDrive2 = new PWMVictorSPX(leftDrivePort2);
-  PWMVictorSPX rightDrive1 = new PWMVictorSPX(rightDrivePort1);
-  PWMVictorSPX rightDrive2 = new PWMVictorSPX(rightDrivePort2);
 
+  //Set up the controller groups for the arcade drive
   SpeedControllerGroup leftDrive = new SpeedControllerGroup(leftDrive1, leftDrive2);
   SpeedControllerGroup rightDrive = new SpeedControllerGroup(rightDrive1, rightDrive2);
 
+  //Set up the differential Drive for the arcade drive
   DifferentialDrive driveBase = new DifferentialDrive(leftDrive, rightDrive);
 
-  //Set up the ID's and controllers for the climb
-  public static int climbID1 = 0;
-  public static int climbID2 = 1;
-  public static int climbID3 = 3;
-
-  TalonSRX climb1 = new TalonSRX(climbID1);
-  TalonSRX climb2 = new TalonSRX(climbID2);
-  TalonSRX climb3 = new TalonSRX(climbID3);
+  //Climb Motor Setup
+  TalonSRX climb1 = new TalonSRX(RobotMap.climbID1);
+  TalonSRX climb2 = new TalonSRX(RobotMap.climbID2);
+  TalonSRX climb3 = new TalonSRX(RobotMap.climbID3);
 
   //Set up the intake lift motors
-  public static int intakeLift1ID = 4;
-  public static int intakeLift2ID = 5;
-
-  VictorSPX intakeLift1 = new VictorSPX(intakeLift1ID);
-  VictorSPX intakeLift2 = new VictorSPX(intakeLift2ID);
+  VictorSPX intakeLift1 = new VictorSPX(RobotMap.intakeLift1ID);
+  VictorSPX intakeLift2 = new VictorSPX(RobotMap.intakeLift2ID);
 
   //Set up the intake spinner
-  public static int intakeSpinID = 6;
-
-  VictorSPX intakeSpinner = new VictorSPX(intakeSpinID);
+  VictorSPX intakeSpinner = new VictorSPX(RobotMap.intakeSpinID);
 
   //Set up the pizza of fourtune
-  public static int pizzaPort = 4;
-
-  PWMVictorSPX pizza = new PWMVictorSPX(pizzaPort);
-
-
-
+  VictorSP pizza = new VictorSP(RobotMap.pizzaPort);
 
   //Variable for the autonomous state machine
   int Init_Finished;
@@ -110,6 +120,19 @@ public class Robot extends TimedRobot {
   @Override
   public void robotInit() {
 
+    //Set the encoders to read per turns of shaft
+    leftEncoder.setDistancePerPulse(1./2048.);
+    rightEncoder.setDistancePerPulse(1./2048.);
+
+    //Reverse Right drive
+    rightDrive.setInverted(true);
+
+    //add the matches for the color sensor
+    Pizza_Sensor_Match.addColorMatch(kBlueTarget);
+    Pizza_Sensor_Match.addColorMatch(kGreenTarget);
+    Pizza_Sensor_Match.addColorMatch(kRedTarget);
+    Pizza_Sensor_Match.addColorMatch(kYellowTarget);
+
     SmartDashboard.putNumber("Right", 0);
     SmartDashboard.putNumber("Left", 0);
 
@@ -119,6 +142,13 @@ public class Robot extends TimedRobot {
 
   @Override
   public void autonomousInit() {
+
+    //set the left encoder to read the reverse value
+    leftEncoder.setReverseDirection(true);
+
+    //Reset the encoders for the initial move off of the line
+    leftEncoder.reset();
+    rightEncoder.reset();
 
     encoder_placeholder = 3;
     Init_Finished = 0;
@@ -143,6 +173,14 @@ public class Robot extends TimedRobot {
     SmartDashboard.putString("Auto Init", "True");
     state_count++;
     Init_Finished = 1;
+
+    //Move off the line
+    do{
+      rightDrive.set(.5);
+      leftDrive.set(.5);
+    } while ( rightEncoder.getDistance() <= 3 & leftEncoder.getDistance() <= 3);
+    rightDrive.set(0);
+    leftDrive.set(0);
 
   }
 
@@ -243,7 +281,74 @@ public class Robot extends TimedRobot {
   public void teleopPeriodic(){
     //Drive code // Check for controller ports;
     driveBase.arcadeDrive(driveJoystick.getRawAxis(1), driveJoystick.getRawAxis(2));
+
+
+    //Manipulator Control Blocks
     
+    //Climb 
+    climb1.set(null, manipJoystick.getRawAxis(ControlMap.climbAxis));
+    climb2.set(null, manipJoystick.getRawAxis(ControlMap.climbAxis));
+    climb3.set(null, manipJoystick.getRawAxis(ControlMap.climbAxis));
+
+    //Spin intake
+    if (manipJoystick.getRawButton(ControlMap.intakeSpinIn)){
+      intakeSpinner.set(null, 1);
+    } else if (manipJoystick.getRawButton(ControlMap.intakeSpinOut)){
+      intakeSpinner.set(null, 1);
+    } else{
+      intakeSpinner.set(null, 0);
+    }
+
+    //Lift intake
+    if (manipJoystick.getRawButton(ControlMap.intakeLower)){
+      intakeLift1.set(null, ControlMap.intakeLiftPower);
+      intakeLift2.set(null, -ControlMap.intakeLiftPower);
+    } else if (manipJoystick.getRawButton(ControlMap.intakeLift)){
+      intakeLift1.set(null, -ControlMap.intakeLowerPower);
+      intakeLift2.set(null, ControlMap.intakeLowerPower);
+    } else {
+      intakeLift1.set(null, 0);
+      intakeLift2.set(null, 0);
+    }
+    //Start spin control
+    if (manipJoystick.getRawButton(ControlMap.spinControl)){
+      //Insert Code Here
+      pizza.set(.5);
+    } else if (manipJoystick.getRawButton(ControlMap.colorControl)){   //Get button for color control
+      //Insert Color Control Here
+      pizza.set(-.5);
+    } else {
+      pizza.set(0);
+    }
+
+
+
+    //Pizza Sensing Block
+    
+    Color detectedColor = Pizza_Sensor.getColor();
+    ColorMatchResult match = Pizza_Sensor_Match.matchClosestColor(detectedColor);
+    String colorString;
+    if (match.color == kBlueTarget) {
+      colorString = "Blue";
+    } else if (match.color == kRedTarget) {
+      colorString = "Red";
+    } else if (match.color == kGreenTarget) {
+      colorString = "Green";
+      } else if (match.color == kYellowTarget) {
+      colorString = "Yellow";
+    } else {
+      colorString = "Unknown";
+   }
+
+   //Display for the color sensor, Manual Counting as temp
+    SmartDashboard.putNumber("Red", detectedColor.red);
+    SmartDashboard.putNumber("Green", detectedColor.green);
+    SmartDashboard.putNumber("Blue", detectedColor.blue);
+    SmartDashboard.putNumber("Confidence", match.confidence);
+    SmartDashboard.putString("Detected Color", colorString);
+
+    SmartDashboard.putString("Number of changes per turn", "8");
+
   }
 
   @Override
