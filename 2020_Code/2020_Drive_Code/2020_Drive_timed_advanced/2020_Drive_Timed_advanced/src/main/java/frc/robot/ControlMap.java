@@ -26,10 +26,10 @@ public class ControlMap{
     public static int intakeLower = 2;
 
     //Power on the lift of the intake
-    public static double intakeLiftPower = .8;
+    public static double intakeLiftPower = 1;
 
     //Power on lift to lower
-    public static double intakeLowerPower = .3;
+    public static double intakeLowerPower = 1;
 
     //button to start spin control
     public static int spinControl = 3;

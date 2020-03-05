@@ -27,7 +27,7 @@ import edu.wpi.first.wpilibj.util.Color; //Allows the use of the color variable 
 import com.revrobotics.ColorMatch; //Allows to match a color to a set coloe
 import com.revrobotics.ColorMatchResult; //Allows to match the color to a set color
 import com.revrobotics.ColorSensorV3; //Allows use of the color senxsor
-
+import com.ctre.phoenix.motorcontrol.ControlMode;
 //CTRE Imports
 import com.ctre.phoenix.motorcontrol.can.TalonSRX; //Allows use of the TalonSRX Controllers
 import com.ctre.phoenix.motorcontrol.can.VictorSPX; //Allows use of the VictorSPX controllers
@@ -89,16 +89,16 @@ public class Robot extends TimedRobot {
   DifferentialDrive driveBase = new DifferentialDrive(leftDrive, rightDrive);
 
   //Climb Motor Setup
-  TalonSRX climb1 = new TalonSRX(RobotMap.climbID1);
-  TalonSRX climb2 = new TalonSRX(RobotMap.climbID2);
-  TalonSRX climb3 = new TalonSRX(RobotMap.climbID3);
+  VictorSPX climb1 = new VictorSPX(RobotMap.climbID1);
+  VictorSPX climb2 = new VictorSPX(RobotMap.climbID2);
+  VictorSPX climb3 = new VictorSPX(RobotMap.climbID3);
 
   //Set up the intake lift motors
-  VictorSPX intakeLift1 = new VictorSPX(RobotMap.intakeLift1ID);
-  VictorSPX intakeLift2 = new VictorSPX(RobotMap.intakeLift2ID);
+  TalonSRX intakeLift1 = new TalonSRX(RobotMap.intakeLift1ID);
+  TalonSRX intakeLift2 = new TalonSRX(RobotMap.intakeLift2ID);
 
   //Set up the intake spinner
-  VictorSPX intakeSpinner = new VictorSPX(RobotMap.intakeSpinID);
+  TalonSRX intakeSpinner = new TalonSRX(RobotMap.intakeSpinID);
 
   //Set up the pizza of fourtune
   VictorSP pizza = new VictorSP(RobotMap.pizzaPort);
@@ -286,29 +286,29 @@ public class Robot extends TimedRobot {
     //Manipulator Control Blocks
     
     //Climb 
-    climb1.set(null, manipJoystick.getRawAxis(ControlMap.climbAxis));
-    climb2.set(null, manipJoystick.getRawAxis(ControlMap.climbAxis));
-    climb3.set(null, manipJoystick.getRawAxis(ControlMap.climbAxis));
+    climb1.set(ControlMode.PercentOutput, manipJoystick.getRawAxis(ControlMap.climbAxis));
+    climb2.set(ControlMode.PercentOutput, manipJoystick.getRawAxis(ControlMap.climbAxis));
+    climb3.set(ControlMode.PercentOutput, manipJoystick.getRawAxis(ControlMap.climbAxis));
 
     //Spin intake
     if (manipJoystick.getRawButton(ControlMap.intakeSpinIn)){
-      intakeSpinner.set(null, 1);
+      intakeSpinner.set(ControlMode.PercentOutput, 1);
     } else if (manipJoystick.getRawButton(ControlMap.intakeSpinOut)){
-      intakeSpinner.set(null, 1);
+      intakeSpinner.set(ControlMode.PercentOutput, -1);
     } else{
-      intakeSpinner.set(null, 0);
+      intakeSpinner.set(ControlMode.PercentOutput, 0);
     }
 
     //Lift intake
     if (manipJoystick.getRawButton(ControlMap.intakeLower)){
-      intakeLift1.set(null, ControlMap.intakeLiftPower);
-      intakeLift2.set(null, -ControlMap.intakeLiftPower);
+      intakeLift1.set(ControlMode.PercentOutput, ControlMap.intakeLiftPower);
+      intakeLift2.set(ControlMode.PercentOutput, -ControlMap.intakeLiftPower);
     } else if (manipJoystick.getRawButton(ControlMap.intakeLift)){
-      intakeLift1.set(null, -ControlMap.intakeLowerPower);
-      intakeLift2.set(null, ControlMap.intakeLowerPower);
+      intakeLift1.set(ControlMode.PercentOutput, -ControlMap.intakeLowerPower);
+      intakeLift2.set(ControlMode.PercentOutput, ControlMap.intakeLowerPower);
     } else {
-      intakeLift1.set(null, 0);
-      intakeLift2.set(null, 0);
+      intakeLift1.set(ControlMode.PercentOutput, 0);
+      intakeLift2.set(ControlMode.PercentOutput, 0);
     }
     
 

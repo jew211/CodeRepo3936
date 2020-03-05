@@ -18,7 +18,7 @@ public class RobotMap{
     public static int intakeLift2ID = 3;
 
     //Intake Redline Motors
-    public static int intakeSpinID = 6;
+    public static int intakeSpinID = 1;
 
     //Pizza of Fortune Motor
     public static int pizzaPort = 4;
