@@ -280,7 +280,7 @@ public class Robot extends TimedRobot {
   @Override
   public void teleopPeriodic(){
     //Drive code // Check for controller ports;
-    driveBase.arcadeDrive(driveJoystick.getRawAxis(1), driveJoystick.getRawAxis(2));
+    driveBase.arcadeDrive(driveJoystick.getRawAxis(ControlMap.left_Axis), driveJoystick.getRawAxis(ControlMap.turn_axis));
 
 
     //Manipulator Control Blocks
@@ -310,16 +310,10 @@ public class Robot extends TimedRobot {
       intakeLift1.set(null, 0);
       intakeLift2.set(null, 0);
     }
-    //Start spin control
-    if (manipJoystick.getRawButton(ControlMap.spinControl)){
-      //Insert Code Here
-      pizza.set(.5);
-    } else if (manipJoystick.getRawButton(ControlMap.colorControl)){   //Get button for color control
-      //Insert Color Control Here
-      pizza.set(-.5);
-    } else {
-      pizza.set(0);
-    }
+    
+
+    //Pizza control block
+    pizza.set(manipJoystick.getRawAxis(ControlMap.pizzaAxis));
 
 
 

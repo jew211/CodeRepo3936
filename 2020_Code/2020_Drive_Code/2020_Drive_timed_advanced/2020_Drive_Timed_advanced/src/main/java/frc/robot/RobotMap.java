@@ -9,13 +9,13 @@ public class RobotMap{
     public static int rightDrivePort2 = 3;
 
     //Winch Motors
-    public static int climbID1 = 0;
-    public static int climbID2 = 1;
-    public static int climbID3 = 3;
+    public static int climbID1 = 4;
+    public static int climbID2 = 5;
+    public static int climbID3 = 6;
 
     //Intake Lift Motors
-    public static int intakeLift1ID = 4;
-    public static int intakeLift2ID = 5;
+    public static int intakeLift1ID = 2;
+    public static int intakeLift2ID = 3;
 
     //Intake Redline Motors
     public static int intakeSpinID = 6;
