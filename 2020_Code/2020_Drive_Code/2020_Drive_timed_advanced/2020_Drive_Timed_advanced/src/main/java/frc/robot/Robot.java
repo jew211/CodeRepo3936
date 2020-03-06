@@ -281,13 +281,13 @@ public class Robot extends TimedRobot {
   public void teleopInit() {
 
     //Set the Blinkin to cycle
-    lights.set(.53);
+    //lights.set(.53);
   }
 
   @Override
   public void teleopPeriodic(){
     //Drive code // Check for controller ports;
-    driveBase.arcadeDrive(driveJoystick.getRawAxis(ControlMap.turn_axis), driveJoystick.getRawAxis(ControlMap.left_Axis));
+    driveBase.arcadeDrive(driveJoystick.getRawAxis(ControlMap.turn_axis), -driveJoystick.getRawAxis(ControlMap.left_Axis));
 
 
 
