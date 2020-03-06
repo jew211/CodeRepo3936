@@ -22,6 +22,7 @@ import edu.wpi.first.wpilibj.drive.DifferentialDrive; //Use for arcade drive
 import edu.wpi.first.wpilibj.SpeedControllerGroup; //Use to create a group of Motor Controllers
 import edu.wpi.first.wpilibj.I2C; //use to use I2C port
 import edu.wpi.first.wpilibj.util.Color; //Allows the use of the color variable type
+import edu.wpi.first.wpilibj.Spark; // Used for Rev Blinkin control
 
 //rev Imports
 import com.revrobotics.ColorMatch; //Allows to match a color to a set coloe
@@ -45,6 +46,9 @@ import java.util.concurrent.TimeUnit; //llows for the use of seconds in the slee
  * project.
  */
 public class Robot extends TimedRobot {
+
+  //Setup the controller for rev blinkin
+  Spark lights = new Spark(RobotMap.Blinkin);
 
   //Setup I2C for color sensor
   private final I2C.Port i2cPort = I2C.Port.kOnboard;
@@ -275,12 +279,16 @@ public class Robot extends TimedRobot {
 
   @Override
   public void teleopInit() {
+
+    //Set the Blinkin to cycle
+    lights.set(.53);
   }
 
   @Override
   public void teleopPeriodic(){
     //Drive code // Check for controller ports;
-    driveBase.arcadeDrive(driveJoystick.getRawAxis(ControlMap.left_Axis), driveJoystick.getRawAxis(ControlMap.turn_axis));
+    driveBase.arcadeDrive(driveJoystick.getRawAxis(ControlMap.turn_axis), driveJoystick.getRawAxis(ControlMap.left_Axis));
+
 
 
     //Manipulator Control Blocks

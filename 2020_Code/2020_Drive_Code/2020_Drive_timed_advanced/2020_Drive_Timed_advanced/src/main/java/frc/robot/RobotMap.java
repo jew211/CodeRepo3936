@@ -33,6 +33,9 @@ public class RobotMap{
     public static int driveJoystickPort = 0;
     public static int manipJoystickPort = 1;
 
+    //Blinkin
+    public static int Blinkin = 5;
+
 
 
 }
