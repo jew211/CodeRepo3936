@@ -287,7 +287,7 @@ public class Robot extends TimedRobot {
   @Override
   public void teleopPeriodic(){
     //Drive code // Check for controller ports;
-    driveBase.arcadeDrive(driveJoystick.getRawAxis(ControlMap.turn_axis), -driveJoystick.getRawAxis(ControlMap.left_Axis));
+    driveBase.arcadeDrive(driveJoystick.getRawAxis(ControlMap.turn_axis), -driveJoystick.getRawAxis(ControlMap.forward_Axis));
 
 
 
