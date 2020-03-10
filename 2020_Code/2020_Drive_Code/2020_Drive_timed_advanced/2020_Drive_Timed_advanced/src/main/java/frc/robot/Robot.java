@@ -34,7 +34,7 @@ import com.ctre.phoenix.motorcontrol.can.TalonSRX; //Allows use of the TalonSRX 
 import com.ctre.phoenix.motorcontrol.can.VictorSPX; //Allows use of the VictorSPX controllers
 
 //Java Language Imports
-import java.util.concurrent.TimeUnit; //llows for the use of seconds in the sleep functions
+//import java.util.concurrent.TimeUnit; //llows for the use of seconds in the sleep functions
 
 
 
@@ -169,29 +169,31 @@ public class Robot extends TimedRobot {
       right = 0;
     }
 
-    SmartDashboard.putNumber("Right_Test", right);
+    /* SmartDashboard.putNumber("Right_Test", right);
     SmartDashboard.putNumber("left_Test", left);
 
     // Put the init state here
 
     SmartDashboard.putString("Auto Init", "True");
     state_count++;
-    Init_Finished = 1;
+    Init_Finished = 1; */
 
-    //Move off the line
-    do{
-      rightDrive.set(.5);
-      leftDrive.set(.5);
-    } while ( rightEncoder.getDistance() <= 3 & leftEncoder.getDistance() <= 3);
-    rightDrive.set(0);
-    leftDrive.set(0);
+    
 
   }
 
   @Override
   public void autonomousPeriodic() {
 
-    SmartDashboard.putNumber("State_count", state_count);
+    //Move off the line
+    do{
+      rightDrive.set(.25);
+      leftDrive.set(.25);
+    } while ( rightEncoder.getDistance() <= 3 & leftEncoder.getDistance() <= 3);
+    rightDrive.set(0);
+    leftDrive.set(0);
+
+   /*  SmartDashboard.putNumber("State_count", state_count);
     if ((encoder_placeholder == 3 & right == 1) | (left == 1 & pixy_centered == 1 && state_count == 3)) {
       // Right Turn State
       SmartDashboard.putString("Auto Init", "False");
@@ -203,7 +205,6 @@ public class Robot extends TimedRobot {
       try {
         TimeUnit.SECONDS.sleep(5);
       } catch (InterruptedException e) {
-        // TODO Auto-generated catch block
         e.printStackTrace();
       }
       state_count++;
@@ -222,7 +223,6 @@ public class Robot extends TimedRobot {
       try {
         TimeUnit.SECONDS.sleep(5);
       } catch (InterruptedException e) {
-        // TODO Auto-generated catch block
         e.printStackTrace();
       }
     } else if (state_count == 2) {
@@ -236,7 +236,6 @@ public class Robot extends TimedRobot {
       try {
         TimeUnit.SECONDS.sleep(5);
       } catch (InterruptedException e) {
-        // TODO Auto-generated catch block
         e.printStackTrace();
       }
       state_count++;
@@ -252,7 +251,6 @@ public class Robot extends TimedRobot {
       try {
         TimeUnit.SECONDS.sleep(5);
       } catch (InterruptedException e) {
-        // TODO Auto-generated catch block
         e.printStackTrace();
       }
       
@@ -269,12 +267,11 @@ public class Robot extends TimedRobot {
       try {
         TimeUnit.SECONDS.sleep(5);
       } catch (InterruptedException e) {
-        // TODO Auto-generated catch block
         e.printStackTrace();
       }
       state_count ++;
 
-    }
+    } */
   }
 
   @Override
@@ -294,9 +291,15 @@ public class Robot extends TimedRobot {
     //Manipulator Control Blocks
     
     //Climb 
-    climb1.set(ControlMode.PercentOutput, manipJoystick.getRawAxis(ControlMap.climbAxis));
-    climb2.set(ControlMode.PercentOutput, manipJoystick.getRawAxis(ControlMap.climbAxis));
-    climb3.set(ControlMode.PercentOutput, manipJoystick.getRawAxis(ControlMap.climbAxis));
+    if ((manipJoystick.getRawAxis(ControlMap.climbAxis) < .25) & (manipJoystick.getRawAxis(ControlMap.climbAxis) < -.25)){
+      climb1.set(ControlMode.PercentOutput, 0);
+      climb2.set(ControlMode.PercentOutput, 0);
+      climb3.set(ControlMode.PercentOutput, 0);
+    }else {
+      climb1.set(ControlMode.PercentOutput, manipJoystick.getRawAxis(ControlMap.climbAxis));
+      climb2.set(ControlMode.PercentOutput, manipJoystick.getRawAxis(ControlMap.climbAxis));
+      climb3.set(ControlMode.PercentOutput, manipJoystick.getRawAxis(ControlMap.climbAxis));
+    }
 
     //Spin intake
     if (manipJoystick.getRawButton(ControlMap.intakeSpinIn)){
@@ -321,7 +324,7 @@ public class Robot extends TimedRobot {
     
 
     //Pizza control block
-    pizza.set(manipJoystick.getRawAxis(ControlMap.pizzaAxis));
+    pizza.set(manipJoystick.getRawAxis(ControlMap.pizzaAxis) * ControlMap.pizzaPower);
 
 
 
