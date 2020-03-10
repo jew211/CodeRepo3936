@@ -23,6 +23,10 @@ import edu.wpi.first.wpilibj.SpeedControllerGroup; //Use to create a group of Mo
 import edu.wpi.first.wpilibj.I2C; //use to use I2C port
 import edu.wpi.first.wpilibj.util.Color; //Allows the use of the color variable type
 import edu.wpi.first.wpilibj.Spark; // Used for Rev Blinkin control
+//import edu.wpi.cscore.UsbCamera; //Used for usb camera
+import edu.wpi.first.cameraserver.CameraServer; //Used to send camera stream to the smart dashboard
+
+
 
 //rev Imports
 import com.revrobotics.ColorMatch; //Allows to match a color to a set coloe
@@ -47,6 +51,7 @@ import com.ctre.phoenix.motorcontrol.can.VictorSPX; //Allows use of the VictorSP
  */
 public class Robot extends TimedRobot {
 
+  
   //Setup the controller for rev blinkin
   Spark lights = new Spark(RobotMap.Blinkin);
 
@@ -123,6 +128,10 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void robotInit() {
+
+
+    //Camera init and display
+    CameraServer.getInstance().startAutomaticCapture();
 
     //Set the encoders to read per turns of shaft
     leftEncoder.setDistancePerPulse(1./2048.);
