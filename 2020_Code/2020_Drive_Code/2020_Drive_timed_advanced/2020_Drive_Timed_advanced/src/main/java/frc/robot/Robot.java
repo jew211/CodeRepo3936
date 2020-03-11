@@ -25,9 +25,7 @@ import edu.wpi.first.wpilibj.util.Color; //Allows the use of the color variable 
 import edu.wpi.first.wpilibj.Spark; // Used for Rev Blinkin control
 //import edu.wpi.cscore.UsbCamera; //Used for usb camera
 import edu.wpi.first.cameraserver.CameraServer; //Used to send camera stream to the smart dashboard
-
-
-
+import edu.wpi.first.wpilibj.DriverStation; //Allows us to get the gamedata
 //rev Imports
 import com.revrobotics.ColorMatch; //Allows to match a color to a set coloe
 import com.revrobotics.ColorMatchResult; //Allows to match the color to a set color
@@ -122,13 +120,15 @@ public class Robot extends TimedRobot {
 
   double pixy_reading;
 
+  //Variable to store the gamedata
+  String gameData;
+
   /**
    * This function is run when the robot is first started up and should be used
    * for any initialization code.
    */
   @Override
   public void robotInit() {
-
 
     //Camera init and display
     CameraServer.getInstance().startAutomaticCapture();
@@ -292,7 +292,23 @@ public class Robot extends TimedRobot {
 
   @Override
   public void teleopPeriodic(){
-    //Drive code // Check for controller ports;
+
+    //Check for the gamedata
+    gameData = DriverStation.getInstance().getGameSpecificMessage();
+
+    //Display the color selection to the dashboard
+    switch(gameData.charAt(0)){
+      case 'B': SmartDashboard.putString("Color Control", "Blue");
+        break;
+      case 'G': SmartDashboard.putString("Color Control", "Green");
+        break;
+      case 'R': SmartDashboard.putString("Color Control", "Red");
+        break;
+      case 'Y': SmartDashboard.putString("Color Control", "Yellow");
+        break;
+      default: SmartDashboard.putString("Color Control", "Null");
+    }
+    //Drive code
     driveBase.arcadeDrive(driveJoystick.getRawAxis(ControlMap.turn_axis), -driveJoystick.getRawAxis(ControlMap.forward_Axis));
 
 
