@@ -123,6 +123,8 @@ public class Robot extends TimedRobot {
   //Variable to store the gamedata
   String gameData;
 
+
+
   /**
    * This function is run when the robot is first started up and should be used
    * for any initialization code.
@@ -163,6 +165,7 @@ public class Robot extends TimedRobot {
     leftEncoder.reset();
     rightEncoder.reset();
 
+    //Set the variables for auto starting config
     encoder_placeholder = 3;
     Init_Finished = 0;
     right = 0;
@@ -170,6 +173,8 @@ public class Robot extends TimedRobot {
     state_count = 0;
     pixy_centered = 1; //using for a placeholder
 
+
+    //Get input from the user for if auto needs to turn left or right
     if (SmartDashboard.getNumber("Right", 0) == 1) {
       right = 1;
       left = 0;
@@ -178,6 +183,9 @@ public class Robot extends TimedRobot {
       right = 0;
     }
 
+
+
+    //THIS BLOCK WAS USED FOR TESTING, WAITING TO DELETE UNTIL WE KNOW AUTO WORKS
     /* SmartDashboard.putNumber("Right_Test", right);
     SmartDashboard.putNumber("left_Test", left);
 
@@ -194,6 +202,8 @@ public class Robot extends TimedRobot {
   @Override
   public void autonomousPeriodic() {
 
+    //TEMP AUTO CODE, INTENDED TO BE USED UNTIL FULL AUTO WAS TESTED AND PROGRAMMED
+
     //Move off the line
     do{
       rightDrive.set(.25);
@@ -201,6 +211,9 @@ public class Robot extends TimedRobot {
     } while ( rightEncoder.getDistance() <= 3 & leftEncoder.getDistance() <= 3);
     rightDrive.set(0);
     leftDrive.set(0);
+
+    //AUTO CODE, CURRENTLY NOT IN USE, 
+    //NO actual moving code here yet, state machine is in place however no movement commands are included.
 
    /*  SmartDashboard.putNumber("State_count", state_count);
     if ((encoder_placeholder == 3 & right == 1) | (left == 1 & pixy_centered == 1 && state_count == 3)) {
@@ -281,11 +294,14 @@ public class Robot extends TimedRobot {
       state_count ++;
 
     } */
+
+    //END AUTO CODE
   }
 
   @Override
   public void teleopInit() {
 
+    //WILL SIGNAL TELEOP INITIATED
     //Set the Blinkin to cycle
     //lights.set(.53);
   }
@@ -308,14 +324,19 @@ public class Robot extends TimedRobot {
         break;
       default: SmartDashboard.putString("Color Control", "Null");
     }
+    
     //Drive code
+    //Runs the arcade drive
     driveBase.arcadeDrive(driveJoystick.getRawAxis(ControlMap.turn_axis), -driveJoystick.getRawAxis(ControlMap.forward_Axis));
 
 
 
     //Manipulator Control Blocks
     
+    
     //Climb 
+
+    //Setting a deadzone on the stick, fixed with controller swap but keeping just in case.
     if ((manipJoystick.getRawAxis(ControlMap.climbAxis) < .25) & (manipJoystick.getRawAxis(ControlMap.climbAxis) < -.25)){
       climb1.set(ControlMode.PercentOutput, 0);
       climb2.set(ControlMode.PercentOutput, 0);
@@ -355,6 +376,7 @@ public class Robot extends TimedRobot {
 
     //Pizza Sensing Block
     
+    //MIGHT NEED FIXED, NOT SURE IF HARDWARE OR SOFTWARE ISSUE
     Color detectedColor = Pizza_Sensor.getColor();
     ColorMatchResult match = Pizza_Sensor_Match.matchClosestColor(detectedColor);
     String colorString;
@@ -377,6 +399,7 @@ public class Robot extends TimedRobot {
     SmartDashboard.putNumber("Confidence", match.confidence);
     SmartDashboard.putString("Detected Color", colorString);
 
+    //Displaying because nobody will remember how many times is changes per turn, this includes me.
     SmartDashboard.putString("Number of changes per turn", "8");
 
   }
