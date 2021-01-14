@@ -4,3 +4,9 @@ Game Manual
 https://www.firstinspires.org/resource-library/frc/competition-manual-qa-system
 trajectory
 https://docs.wpilib.org/en/stable/docs/software/examples-tutorials/trajectory-tutorial/index.html
+PathWeaver
+https://docs.wpilib.org/en/stable/docs/software/wpilib-tools/pathweaver/introduction.html#introduction-to-pathweaver
+Robot Characterization 
+https://docs.wpilib.org/en/stable/docs/software/wpilib-tools/robot-characterization/introduction.html#introduction-to-robot-characterization
+
+Trajectory PathWeaver and Characterization are all related to get curves for auto
