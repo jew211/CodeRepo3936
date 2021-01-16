@@ -8,5 +8,7 @@ PathWeaver
 https://docs.wpilib.org/en/stable/docs/software/wpilib-tools/pathweaver/introduction.html#introduction-to-pathweaver
 Robot Characterization 
 https://docs.wpilib.org/en/stable/docs/software/wpilib-tools/robot-characterization/introduction.html#introduction-to-robot-characterization
+5190 trajectory Tutorial
+https://www.ghrobotics.org/resources/       This is kind of outdated already, using 2020 software
 
 Trajectory PathWeaver and Characterization are all related to get curves for auto
