@@ -13,6 +13,8 @@ import edu.wpi.first.wpilibj.kinematics.DifferentialDriveOdometry;
 import edu.wpi.first.wpilibj.kinematics.DifferentialDriveWheelSpeeds;
 import edu.wpi.first.wpilibj.util.Units;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+
+import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.kauailabs.navx.frc.AHRS;
 
@@ -37,7 +39,7 @@ public class Drivetrain extends SubsystemBase {
     SimpleMotorFeedforward feedforward = new SimpleMotorFeedforward(0.268, 1.89, .243);  //NOT OUR VALUES, EXAMPLES
 
     PIDController leftPIDController = new PIDController(9.95, 0 , 0);
-    PIDController rightPIDController = new PIDController(9.95, 0 , 0)
+    PIDController rightPIDController = new PIDController(9.95, 0 , 0);
 
 
  public Drivetrain(){
@@ -75,8 +77,8 @@ public class Drivetrain extends SubsystemBase {
         return pose;
  }
  public void setOutput(double leftVolts, double rightVolts){
-        leftMaster.set(leftVolts / 12);
-        rightMaster.set(rightVolts / 12);
+        leftMaster.set(ControlMode.PercentOutput, leftVolts / 12);
+        rightMaster.set(ControlMode.PercentOutput, rightVolts / 12);
  }
     @Override
     public void periodic() {

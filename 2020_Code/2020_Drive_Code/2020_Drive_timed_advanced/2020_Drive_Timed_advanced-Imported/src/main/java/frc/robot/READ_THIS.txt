@@ -1,0 +1,13 @@
+The Control Map contains the variables used in determining what axis and buttons do what
+The Robot Map contains the variable contained in assigning motor controllers
+
+Auto is currently set up to go forward for three turns of the wheels and then stop;
+
+Pizza of fortune is currently running on a user controlled button with the readings from the color sensor being displayed to the smart dashboard so they can count how many times the 
+color has changed. Displayed the number of changes per turn as a string for reference
+
+Right side wheels are currently reversed, need looking at,
+
+Not sure about the arcade drive, might need to play with the sticks used
+
+Motor power for the lift and lower of the intake is located in Control Map by the button mappings for the respective actions
