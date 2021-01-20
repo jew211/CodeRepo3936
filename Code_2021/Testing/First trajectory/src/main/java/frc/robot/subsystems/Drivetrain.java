@@ -37,7 +37,7 @@ public class Drivetrain extends SubsystemBase {
     SimpleMotorFeedforward feedforward = new SimpleMotorFeedforward(0.268, 1.89, .243);  //NOT OUR VALUES, EXAMPLES
 
     PIDController leftPIDController = new PIDController(9.95, 0 , 0);
-    PIDController rightPIDController = new PIDController(9.95, 0 , 0)
+    PIDController rightPIDController = new PIDController(9.95, 0 , 0);
 
 
  public Drivetrain(){

@@ -12,3 +12,6 @@ https://docs.wpilib.org/en/stable/docs/software/wpilib-tools/robot-characterizat
 https://www.ghrobotics.org/resources/       This is kind of outdated already, using 2020 software
 
 Trajectory PathWeaver and Characterization are all related to get curves for auto
+
+Simulation tutorial
+https://www.chiefdelphi.com/t/infinite-recharge-at-home-autonav-challenges-using-wpilibs-drive-simulator/390485

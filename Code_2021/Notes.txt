@@ -1,0 +1,9 @@
+01/19/21:
+Meeting notes:
+Trajectory code started
+Looking for Gyro.
+Action items for next meeting:
+- Debug the code
+- Look further into simulation
+Homework:
+- Watch 5190 trajectory video (John)
