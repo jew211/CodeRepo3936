@@ -5,5 +5,7 @@ Looking for Gyro.
 Action items for next meeting:
 - Debug the code
 - Look further into simulation
+- Look at different gyro
+
 Homework:
 - Watch 5190 trajectory video (John)
