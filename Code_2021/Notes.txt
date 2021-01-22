@@ -9,3 +9,14 @@ Action items for next meeting:
 
 Homework:
 - Watch 5190 trajectory video (John)
+
+01/21/21
+Meeting Notes:
+- Debugged trajectory code
+- updated VS code to 2021.2.1
+- Created barrel path in trajectory path
+- Looking further into simulation software on WPILib
+Action items for next meeting
+- Look at different gyro (Chicken instead of lamb :P)
+- Work on measurements for simulation software
+- create simulation code.
