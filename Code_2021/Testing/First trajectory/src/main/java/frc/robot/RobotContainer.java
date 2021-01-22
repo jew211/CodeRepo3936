@@ -21,10 +21,19 @@ public class RobotContainer {
           config.setKinematics(drive.getKinematics());
 
           Trajectory trajectory = TrajectoryGenerator.generateTrajectory(
-                  Arrays.asList(new Pose2d(), new Pose2d(1.0, 0 , new Rotation2d())));
+                  Arrays.asList(new Pose2d(), new Pose2d(1.0, 0 , new Rotation2d())), config);
 
-          RamseteCommand command = new RamseteCommand(trajectory, drive::getPose, new RamseteController(2, 0.7), drive.getFeedforward(), drive.getKinematics(), drive::GetSpeeds,
-                  drive.getLeftPIDController(), drive.getRightPIDController(), drive::setOutput, drive);
+          RamseteCommand command = new RamseteCommand(
+          trajectory, 
+          drive::getPose, 
+          new RamseteController(2, 0.7), 
+          drive.getFeedforward(), 
+          drive.getKinematics(), 
+          drive::getSpeeds,
+          drive.getLeftPIDController(),
+          drive.getRightPIDController(), 
+          drive::setOutput, 
+          drive);
           return command;
      }
 

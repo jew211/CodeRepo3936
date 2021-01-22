@@ -32,7 +32,7 @@ public class Drivetrain extends SubsystemBase {
      AHRS gyro = new AHRS(SPI.Port.kMXP); //gyro object, check for specific gyro for correct
 
      DifferentialDriveKinematics kinematics = new DifferentialDriveKinematics(Units.inchesToMeters(28));
-     DifferentialDriveOdometry odometry = new DifferentialDriveOdometry(kinematics, getHeading());
+     DifferentialDriveOdometry odometry = new DifferentialDriveOdometry(getHeading());
 
      Pose2d pose; //stores position of the robot
 
@@ -82,6 +82,6 @@ public class Drivetrain extends SubsystemBase {
  }
     @Override
     public void periodic() {
-        pose = odometry.update(getHeading(), getSpeeds());
+        pose = odometry.update(getHeading(), getSpeeds().rightMetersPerSecond, getSpeeds().leftMetersPerSecond);
     }
 }
