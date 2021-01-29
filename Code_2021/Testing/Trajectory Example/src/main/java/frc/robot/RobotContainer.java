@@ -125,6 +125,7 @@ public class RobotContainer {
             // Pass config
             config); */
             String trajectoryJSON = "paths/BarrelRacing.wpilib.json";
+            String trajectoryJSON2 = "paths/slalom.wpilib.json";
           Trajectory exampleTrajectory = new Trajectory();
                try {
                     Path trajectoryPath = Filesystem.getDeployDirectory().toPath().resolve(trajectoryJSON);
@@ -132,6 +133,13 @@ public class RobotContainer {
                } catch (IOException ex) {
                     DriverStation.reportError("Unable to open trajectory: " + trajectoryJSON, ex.getStackTrace());
                }
+          Trajectory exampleTrajectory2 = new Trajectory();
+               try {
+                    Path trajectoryPath2 = Filesystem.getDeployDirectory().toPath().resolve(trajectoryJSON2);
+                    exampleTrajectory2 = TrajectoryUtil.fromPathweaverJson(trajectoryPath2);
+               } catch (IOException ex) {
+                    DriverStation.reportError("Unable to open trajectory: " + trajectoryJSON, ex.getStackTrace());
+               } 
 
     RamseteCommand ramseteCommand =
         new RamseteCommand(
@@ -158,3 +166,4 @@ public class RobotContainer {
     return ramseteCommand.andThen(() -> m_robotDrive.tankDriveVolts(0, 0));
   }
 }
+
