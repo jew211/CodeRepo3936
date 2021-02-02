@@ -18,28 +18,30 @@ import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.kauailabs.navx.frc.AHRS;
 
+import frc.robot.values;
+
 
 public class Drivetrain extends SubsystemBase {
-     TalonSRX leftMaster = new TalonSRX(0);
-     TalonSRX rightMaster = new TalonSRX(2);
+     TalonSRX leftMaster = new TalonSRX(values.leftMasterPort);
+     TalonSRX rightMaster = new TalonSRX(values.rightMasterPort);
 
-     TalonSRX leftSlave = new TalonSRX(1);
-     TalonSRX rightSlave = new TalonSRX(3);
+     TalonSRX leftSlave = new TalonSRX(values.leftSlavePort);
+     TalonSRX rightSlave = new TalonSRX(values.rightSlavePort);
 
-     Encoder rightEncoder = new Encoder(0,1);
-     Encoder leftEncoder = new Encoder(2, 3);
+     Encoder rightEncoder = new Encoder(values.rightEncoder1,values.rightEncoder2);
+     Encoder leftEncoder = new Encoder(values.leftEncoder1, values.leftEncoder2);
 
      AHRS gyro = new AHRS(SPI.Port.kMXP); //gyro object, check for specific gyro for correct
 
-     DifferentialDriveKinematics kinematics = new DifferentialDriveKinematics(Units.inchesToMeters(28));
+     DifferentialDriveKinematics kinematics = new DifferentialDriveKinematics(Units.inchesToMeters(values.trackWidthInches));  //TRACK WIDTH IN METERS, CONVERTING WITH UNITS CLASS
      DifferentialDriveOdometry odometry = new DifferentialDriveOdometry(getHeading());
 
      Pose2d pose; //stores position of the robot
 
-    SimpleMotorFeedforward feedforward = new SimpleMotorFeedforward(0.268, 1.89, .243);  //NOT OUR VALUES, EXAMPLES
+    SimpleMotorFeedforward feedforward = new SimpleMotorFeedforward(values.staticGain, values.velocityGain, values.accelGain);  //NOT OUR VALUES, EXAMPLES, STATIC GAIN, VELOCITY GAIN,  ACCELERATION GAIN
 
-    PIDController leftPIDController = new PIDController(9.95, 0 , 0);
-    PIDController rightPIDController = new PIDController(9.95, 0 , 0);
+    PIDController leftPIDController = new PIDController(values.leftKP, values.leftKI , values.leftKD);
+    PIDController rightPIDController = new PIDController(values.rightKP, values.rightKI , values.rightKD);
 
 
  public Drivetrain(){
