@@ -22,7 +22,7 @@ public class RobotContainer {
 
      private Drivetrain drive = new Drivetrain();
      public Command getAutonomousCommand(){
-          TrajectoryConfig config = new TrajectoryConfig(Units.feetToMeters(2) , Units.feetToMeters(2));
+          TrajectoryConfig config = new TrajectoryConfig(2.5 , 2.5);
           config.setKinematics(drive.getKinematics());
 
           //Trajectory trajectory = TrajectoryGenerator.generateTrajectory(

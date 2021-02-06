@@ -66,9 +66,19 @@
 	<widget field="Right" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
 		<location x="269" y="-5"/>
 	</widget>
+	<widget field="r_encoder_pos" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="9" y="2"/>
+	</widget>
+	<widget field="r_encoder_rate" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="4" y="13"/>
+	</widget>
+	<widget field="l_encoder_pos" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="23" y="24"/>
+	</widget>
+	<widget field="l_encoder_rate" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="14" y="0"/>
+	</widget>
 </dashboard>
 <live-window>
 </live-window>
-	<hidden field="Right_Test"/>
-	<hidden field="left_Test"/>
 </xml>
