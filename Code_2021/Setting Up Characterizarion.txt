@@ -1,5 +1,9 @@
 
 MAKE SURE YOU HAVE PYTHON 3 AND PIP INSTALLED
+https://www.python.org/
+	- Click on download
+	- If you are having issues with PIP follow this video
+	https://www.youtube.com/watch?v=Jw_MuM2BOuI
 
 open powershell run
 pip install frc-characterization
