@@ -13,25 +13,26 @@ import edu.wpi.first.wpilibj.kinematics.DifferentialDriveOdometry;
 import edu.wpi.first.wpilibj.kinematics.DifferentialDriveWheelSpeeds;
 import edu.wpi.first.wpilibj.util.Units;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import edu.wpi.first.wpilibj.VictorSP;
 
-import com.ctre.phoenix.motorcontrol.ControlMode;
-import com.ctre.phoenix.motorcontrol.can.TalonSRX;
+//import com.ctre.phoenix.motorcontrol.ControlMode;
+//import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.kauailabs.navx.frc.AHRS;
 
 import frc.robot.values;
 
 
 public class Drivetrain extends SubsystemBase {
-     TalonSRX leftMaster = new TalonSRX(values.leftMasterPort);
-     TalonSRX rightMaster = new TalonSRX(values.rightMasterPort);
+     VictorSP leftMaster = new VictorSP(values.leftMasterPort);
+     VictorSP rightMaster = new VictorSP(values.rightMasterPort);
 
-     TalonSRX leftSlave = new TalonSRX(values.leftSlavePort);
-     TalonSRX rightSlave = new TalonSRX(values.rightSlavePort);
+     VictorSP leftSlave = new VictorSP(values.leftSlavePort);
+     VictorSP rightSlave = new VictorSP(values.rightSlavePort);
 
      Encoder rightEncoder = new Encoder(values.rightEncoder1,values.rightEncoder2);
      Encoder leftEncoder = new Encoder(values.leftEncoder1, values.leftEncoder2);
 
-     AHRS gyro = new AHRS(SPI.Port.kMXP); //gyro object, check for specific gyro for correct
+     public static AHRS gyro = new AHRS(SPI.Port.kMXP); //gyro object, check for specific gyro for correct
 
      DifferentialDriveKinematics kinematics = new DifferentialDriveKinematics(Units.inchesToMeters(values.trackWidthInches));  //TRACK WIDTH IN METERS, CONVERTING WITH UNITS CLASS
      DifferentialDriveOdometry odometry = new DifferentialDriveOdometry(getHeading());
@@ -45,15 +46,15 @@ public class Drivetrain extends SubsystemBase {
 
 
  public Drivetrain(){
-     leftSlave.follow(leftMaster);
-     rightSlave.follow(rightMaster); //sets the slaves to follow the masters
 
-     rightMaster.setInverted(true); //sets right to invert
+     rightMaster.setInverted(true);
+     rightSlave.setInverted(true); //sets right to invert
      leftMaster.setInverted(false);
+     leftSlave.setInverted(false);
  }
 
  public Rotation2d getHeading(){
-     return Rotation2d.fromDegrees(-gyro.getAngle());
+     return Rotation2d.fromDegrees(-gyro.getPitch());
  }
 
  public DifferentialDriveWheelSpeeds getSpeeds(){
@@ -79,8 +80,10 @@ public class Drivetrain extends SubsystemBase {
         return pose;
  }
  public void setOutput(double leftVolts, double rightVolts){
-        leftMaster.set(ControlMode.PercentOutput, leftVolts / 12);
-        rightMaster.set(ControlMode.PercentOutput, rightVolts / 12);
+        leftMaster.set(leftVolts / 12);
+        leftSlave.set(leftVolts / 12);
+        rightMaster.set(rightVolts / 12);
+        rightSlave.set(rightVolts / 12);
  }
     @Override
     public void periodic() {
