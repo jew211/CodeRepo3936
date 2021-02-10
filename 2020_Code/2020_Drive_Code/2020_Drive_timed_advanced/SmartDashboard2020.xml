@@ -23,5 +23,58 @@
 	</widget>
 </dashboard>
 <live-window>
+	<widget field="Drivetrain" type="LW Subsystem" class="edu.wpi.first.smartdashboard.livewindow.elements.LWSubsystem">
+		<location x="0" y="23"/>
+	</widget>
+	<widget field="Ungrouped" type="LW Subsystem" class="edu.wpi.first.smartdashboard.livewindow.elements.LWSubsystem">
+		<widget field="Encoder[1]" type="Quadrature Encoder" class="edu.wpi.first.smartdashboard.livewindow.elements.EncoderDisplay">
+			<location x="6" y="16"/>
+			<height>97</height>
+			<width>293</width>
+		</widget>
+		<widget field="VictorSP[1]" type="Speed Controller" class="edu.wpi.first.smartdashboard.livewindow.elements.SpeedController">
+			<location x="6" y="113"/>
+			<height>45</height>
+			<width>293</width>
+		</widget>
+		<widget field="VictorSP[3]" type="Speed Controller" class="edu.wpi.first.smartdashboard.livewindow.elements.SpeedController">
+			<location x="6" y="158"/>
+			<height>45</height>
+			<width>293</width>
+		</widget>
+		<widget field="PIDController[1]" type="PIDController" class="edu.wpi.first.smartdashboard.gui.elements.PIDEditor">
+			<location x="6" y="203"/>
+			<height>155</height>
+			<width>293</width>
+		</widget>
+		<widget field="Encoder[0]" type="Quadrature Encoder" class="edu.wpi.first.smartdashboard.livewindow.elements.EncoderDisplay">
+			<location x="6" y="358"/>
+			<height>97</height>
+			<width>293</width>
+		</widget>
+		<widget field="PIDController[2]" type="PIDController" class="edu.wpi.first.smartdashboard.gui.elements.PIDEditor">
+			<location x="6" y="455"/>
+			<height>155</height>
+			<width>293</width>
+		</widget>
+		<widget field="VictorSP[0]" type="Speed Controller" class="edu.wpi.first.smartdashboard.livewindow.elements.SpeedController">
+			<location x="6" y="610"/>
+			<height>45</height>
+			<width>293</width>
+		</widget>
+		<widget field="VictorSP[2]" type="Speed Controller" class="edu.wpi.first.smartdashboard.livewindow.elements.SpeedController">
+			<location x="6" y="655"/>
+			<height>45</height>
+			<width>293</width>
+		</widget>
+		<widget field="navX-Sensor" type="Gyro" class="edu.wpi.first.smartdashboard.gui.elements.Compass">
+			<location x="6" y="700"/>
+			<height>150</height>
+			<width>293</width>
+		</widget>
+		<location x="0" y="0"/>
+		<width>305</width>
+		<height>856</height>
+	</widget>
 </live-window>
 </xml>
