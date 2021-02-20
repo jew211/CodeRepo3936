@@ -14,7 +14,7 @@ import edu.wpi.first.wpilibj.kinematics.DifferentialDriveWheelSpeeds;
 import edu.wpi.first.wpilibj.util.Units;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj.VictorSP;
-
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 //import com.ctre.phoenix.motorcontrol.ControlMode;
 //import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.kauailabs.navx.frc.AHRS;
@@ -30,7 +30,7 @@ public class Drivetrain extends SubsystemBase {
      VictorSP rightSlave = new VictorSP(values.rightSlavePort);
 
      Encoder rightEncoder = new Encoder(values.rightEncoder1,values.rightEncoder2);
-     Encoder leftEncoder = new Encoder(values.leftEncoder1, values.leftEncoder2);
+     public Encoder leftEncoder = new Encoder(values.leftEncoder1, values.leftEncoder2);
 
      public static AHRS gyro = new AHRS(SPI.Port.kMXP); //gyro object, check for specific gyro for correct
 
@@ -51,10 +51,21 @@ public class Drivetrain extends SubsystemBase {
      rightSlave.setInverted(true); //sets right to invert
      leftMaster.setInverted(false);
      leftSlave.setInverted(false);
+     leftEncoder.setReverseDirection(false);
+     rightEncoder.setReverseDirection(true);
+
+     leftEncoder.reset();
+     rightEncoder.reset();
+     gyro.calibrate();
+
+     leftEncoder.setDistancePerPulse((2 * Math.PI * Units.inchesToMeters(3)) / 2048);
+     rightEncoder.setDistancePerPulse((2 * Math.PI * Units.inchesToMeters(3)) / 2048);
+
+     
  }
 
  public Rotation2d getHeading(){
-     return Rotation2d.fromDegrees(-gyro.getPitch());
+     return Rotation2d.fromDegrees(-gyro.getAngle());
  }
 
  public DifferentialDriveWheelSpeeds getSpeeds(){
@@ -88,5 +99,14 @@ public class Drivetrain extends SubsystemBase {
     @Override
     public void periodic() {
         pose = odometry.update(getHeading(), getSpeeds().rightMetersPerSecond, getSpeeds().leftMetersPerSecond);
+        SmartDashboard.putNumber("PoseX", getPose().getX());
+        SmartDashboard.putNumber("PoseY", getPose().getY());
+        SmartDashboard.putNumber("leftEncoder", leftEncoder.getDistance());
+        SmartDashboard.putNumber("rightEncoder", rightEncoder.getDistance());
+        SmartDashboard.putNumber("Gyro Pitch", gyro.getPitch());
+        SmartDashboard.putNumber("Gyro Roll", gyro.getRoll());
+        SmartDashboard.putNumber("Gyro Yaw", gyro.getYaw());
+        SmartDashboard.putNumber("Gyro Angle", gyro.getAngle());
+        SmartDashboard.putNumber("GyroRoll", gyro.getRoll());
     }
 }

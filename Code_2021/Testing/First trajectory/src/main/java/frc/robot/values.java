@@ -6,17 +6,17 @@ public class values {
 
 
     //Motor feed forward values
-    public static double staticGain = .925;
-    public static double velocityGain = 1.53;
-    public static double accelGain = .0154;
+    public static double staticGain = 1.58;
+    public static double velocityGain = 4.3;
+    public static double accelGain = .0503;
     
     //left pid controller
-    public static double leftKP = .212;
+    public static double leftKP = .424;
     public static double leftKI = 0;
     public static double leftKD = 0;
 
     //right PID controller
-    public static double rightKP = .212;
+    public static double rightKP = .424;
     public static double rightKI = 0;
     public static double rightKD = 0;
 
@@ -27,9 +27,9 @@ public class values {
     public static int rightSlavePort = 3;
 
     //encoder ports
-    public static int rightEncoder1 = 0;
-    public static int rightEncoder2 = 1;
-    public static int leftEncoder1 = 2;
-    public static int leftEncoder2 = 3;
+    public static int rightEncoder1 = 2;
+    public static int rightEncoder2 = 3;
+    public static int leftEncoder1 = 0;
+    public static int leftEncoder2 = 1;
 }
 
