@@ -14,9 +14,13 @@ import edu.wpi.first.wpilibj.kinematics.DifferentialDriveKinematics;
  * <p>It is advised to statically import this class (or one of its inner classes) wherever the
  * constants are needed, to reduce verbosity.
  */
+
+ import edu.wpi.first.wpilibj.util.Units;
+
 public final class Constants {
 
-	public static final double KaVoltsSecondsSquredPerMeter = 0;
+	public static double trackWidthInches = 29;
+
 	public static int leftDrivePort1 = 0;
     public static int leftDrivePort2 = 1;
 
@@ -31,16 +35,24 @@ public final class Constants {
     public static int rightEncoderPort2 = 3;
     public static boolean rightEncoderReversed = true;
     
-    public static double leftDistancePerPulse;
-	public static double rightDistancePerPulse;
-	public static double ksVolts;
-	public static double kvVoltSecondsPerMeter;
-	public static DifferentialDriveKinematics kDriveKinematics;
-	public static double kMaxSpeedMetersPerSecond;
-	public static double kMaxAccelerationMetersPerSecondSquared;
-	public static double kRamseteB;
-	public static double kRamseteZeta;
-	public static double kPDriveVel;
+    public static double leftDistancePerPulse = ((2 * Math.PI * Units.inchesToMeters(3)) / 2048);
+	public static double rightDistancePerPulse = ((2 * Math.PI * Units.inchesToMeters(3)) / 2048);
+	
+	public static double ksVolts = 1.58;
+	public static double kvVoltSecondsPerMeter = 4.3;
+	
+	public static DifferentialDriveKinematics kDriveKinematics = new DifferentialDriveKinematics(Units.inchesToMeters(trackWidthInches));
+	
+	public static double kMaxSpeedMetersPerSecond = 1.5;
+	public static final double KaVoltsSecondsSquredPerMeter = .0503;
+	public static double kMaxAccelerationMetersPerSecondSquared = 1;
+	
+	public static double kRamseteB = 2;
+	public static double kRamseteZeta = 0.7;
+	
+	public static double kPDriveVel = .424;
+
+	
 
 
 
