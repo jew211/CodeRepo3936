@@ -54,5 +54,6 @@ public final class Constants {
     public static boolean kLeftEncoderReversed = false;
 
     public static double kEncoderDistancePerPulse = 10;
+    
 }
 
