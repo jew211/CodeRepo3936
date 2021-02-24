@@ -38,19 +38,19 @@ public final class Constants {
     public static double leftDistancePerPulse = ((2 * Math.PI * Units.inchesToMeters(3)) / 2048);
 	public static double rightDistancePerPulse = ((2 * Math.PI * Units.inchesToMeters(3)) / 2048);
 	
-	public static double ksVolts = 1.58;
-	public static double kvVoltSecondsPerMeter = 4.3;
+	public static double ksVolts = .823;
+	public static double kvVoltSecondsPerMeter = 1.46;
 	
 	public static DifferentialDriveKinematics kDriveKinematics = new DifferentialDriveKinematics(Units.inchesToMeters(trackWidthInches));
 	
-	public static double kMaxSpeedMetersPerSecond = 1.5;
-	public static final double KaVoltsSecondsSquredPerMeter = .0503;
-	public static double kMaxAccelerationMetersPerSecondSquared = 1;
+	public static double kMaxSpeedMetersPerSecond = 1;
+	public static final double KaVoltsSecondsSquredPerMeter = .0042;
+	public static double kMaxAccelerationMetersPerSecondSquared = .2;
 	
 	public static double kRamseteB = 2;
 	public static double kRamseteZeta = 0.7;
 	
-	public static double kPDriveVel = .424;
+	public static double kPDriveVel = .00127;
 
 	
 
