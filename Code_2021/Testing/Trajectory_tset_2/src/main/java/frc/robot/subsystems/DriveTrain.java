@@ -2,7 +2,9 @@ package frc.robot.subsystems;
 
 import frc.robot.Constants;
 
-import com.kauailabs.navx.frc.AHRS;
+//import com.kauailabs.navx.frc.AHRS;
+
+import edu.wpi.first.wpilibj.ADXRS450_Gyro;
 
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.SpeedControllerGroup;
@@ -30,7 +32,7 @@ public class DriveTrain extends SubsystemBase{
     private final Encoder rightEncoder = new Encoder(Constants.rightEncoderPort1, Constants.rightEncoderPort2, Constants.rightEncoderReversed);
 
     //gyro
-    AHRS gyro = new AHRS(SPI.Port.kMXP);
+    ADXRS450_Gyro gyro = new ADXRS450_Gyro(SPI.Port.kMXP);
 
     //odometry, tracks robot pose
     private final DifferentialDriveOdometry odometry;
