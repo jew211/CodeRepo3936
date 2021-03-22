@@ -29,28 +29,28 @@ public final class Constants {
     
     public static int leftEncoderPort1 = 0;
 	public static int leftEncoderPort2 = 1;
-    public static boolean leftEncoderReversed = false;
+    public static boolean leftEncoderReversed = true;
     
     public static int rightEncoderPort1 = 2;
     public static int rightEncoderPort2 = 3;
-    public static boolean rightEncoderReversed = true;
+    public static boolean rightEncoderReversed = false;
     
     public static double leftDistancePerPulse = ((2 * Math.PI * Units.inchesToMeters(3)) / 2048);
 	public static double rightDistancePerPulse = ((2 * Math.PI * Units.inchesToMeters(3)) / 2048);
 	
-	public static double ksVolts = .823;
-	public static double kvVoltSecondsPerMeter = 1.46;
+	public static double ksVolts = 1;
+	public static double kvVoltSecondsPerMeter = 2;
 	
 	public static DifferentialDriveKinematics kDriveKinematics = new DifferentialDriveKinematics(Units.inchesToMeters(trackWidthInches));
 	
 	public static double kMaxSpeedMetersPerSecond = 1;
-	public static final double KaVoltsSecondsSquredPerMeter = .0042;
+	public static final double KaVoltsSecondsSquredPerMeter = .8;
 	public static double kMaxAccelerationMetersPerSecondSquared = .2;
 	
 	public static double kRamseteB = 2;
 	public static double kRamseteZeta = 0.7;
 	
-	public static double kPDriveVel = .00127;
+	public static double kPDriveVel = 1.4;
 
 	
 

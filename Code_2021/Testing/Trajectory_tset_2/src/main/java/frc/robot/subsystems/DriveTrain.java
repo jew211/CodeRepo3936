@@ -5,7 +5,7 @@ import frc.robot.Constants;
 //import com.kauailabs.navx.frc.AHRS;
 
 import edu.wpi.first.wpilibj.ADXRS450_Gyro;
-
+import edu.wpi.first.wpilibj.CounterBase;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.SpeedControllerGroup;
 import edu.wpi.first.wpilibj.VictorSP;
@@ -20,19 +20,20 @@ public class DriveTrain extends SubsystemBase{
     //left drive motors
     private final SpeedControllerGroup leftDrive = new SpeedControllerGroup(new VictorSP(Constants.leftDrivePort1), new VictorSP(Constants.leftDrivePort2));
     //right drive motors
+
     private final SpeedControllerGroup rightDrive = new SpeedControllerGroup(new VictorSP(Constants.rightDrivePort1), new VictorSP(Constants.rightDrivePort2));
 
     //differential drive for the robot
     private final DifferentialDrive drive = new DifferentialDrive(leftDrive, rightDrive);
 
     //left side encoder
-    private final Encoder leftEncoder = new Encoder(Constants.leftEncoderPort1, Constants.leftEncoderPort2, Constants.leftEncoderReversed);
+    private final Encoder leftEncoder = new Encoder(Constants.leftEncoderPort1, Constants.leftEncoderPort2, Constants.leftEncoderReversed, CounterBase.EncodingType.k1X);
 
     //right side encoder
-    private final Encoder rightEncoder = new Encoder(Constants.rightEncoderPort1, Constants.rightEncoderPort2, Constants.rightEncoderReversed);
+    private final Encoder rightEncoder = new Encoder(Constants.rightEncoderPort1, Constants.rightEncoderPort2, Constants.rightEncoderReversed, CounterBase.EncodingType.k1X);
 
     //gyro
-    ADXRS450_Gyro gyro = new ADXRS450_Gyro(SPI.Port.kMXP);
+    ADXRS450_Gyro gyro = new ADXRS450_Gyro(SPI.Port.kOnboardCS0);
 
     //odometry, tracks robot pose
     private final DifferentialDriveOdometry odometry;
