@@ -4,12 +4,18 @@
 
 package frc.robot;
 
+
+
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
-
+import frc.robot.subsystems.DriveTrain;
 import edu.wpi.first.wpilibj.VictorSP;
 import edu.wpi.first.wpilibj.Joystick;
+
+import edu.wpi.first.cameraserver.CameraServer;
+
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  * The VM is configured to automatically run this class, and to call the functions corresponding to
@@ -22,12 +28,6 @@ public class Robot extends TimedRobot {
 
   private RobotContainer m_robotContainer;
 
-  VictorSP leftDrive1 = new VictorSP(0);
-  VictorSP leftDrive2 = new VictorSP(1);
-
-  VictorSP rightDrive1 = new VictorSP(2);
-  VictorSP rightDrive2 = new VictorSP(3);
-
   Joystick driver = new Joystick(0);
 
   /**
@@ -39,6 +39,9 @@ public class Robot extends TimedRobot {
     // Instantiate our RobotContainer.  This will perform all our button bindings, and put our
     // autonomous chooser on the dashboard.
     m_robotContainer = new RobotContainer();
+
+    //create the camera stream
+    CameraServer.getInstance().startAutomaticCapture();
   }
 
   /**
@@ -76,6 +79,8 @@ public class Robot extends TimedRobot {
   @Override
   public void autonomousPeriodic() {
     CommandScheduler.getInstance().run();
+    SmartDashboard.putNumber("LeftEncoder", -DriveTrain.leftEncoder.getDistance());
+    SmartDashboard.putNumber("RightEncoder", -DriveTrain.rightEncoder.getDistance());
   }
 
   @Override
@@ -94,11 +99,9 @@ public class Robot extends TimedRobot {
   public void teleopPeriodic() {
 
     //simple tank drive
-    leftDrive1.set(driver.getRawAxis(1));
-    leftDrive2.set(driver.getRawAxis(1));
+    DriveTrain.leftDrive.set((-driver.getRawAxis(1) * .5));
 
-    rightDrive1.set(driver.getRawAxis(5));
-    rightDrive2.set(driver.getRawAxis(5));
+    DriveTrain.rightDrive.set((-driver.getRawAxis(5) * .5));
   }
 
   @Override

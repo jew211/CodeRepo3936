@@ -16,21 +16,23 @@ import edu.wpi.first.wpilibj.kinematics.DifferentialDriveWheelSpeeds;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj.SPI;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+
 public class DriveTrain extends SubsystemBase{
     //left drive motors
-    private final SpeedControllerGroup leftDrive = new SpeedControllerGroup(new VictorSP(Constants.leftDrivePort1), new VictorSP(Constants.leftDrivePort2));
+    public final static SpeedControllerGroup leftDrive = new SpeedControllerGroup(new VictorSP(Constants.leftDrivePort1), new VictorSP(Constants.leftDrivePort2));
     //right drive motors
 
-    private final SpeedControllerGroup rightDrive = new SpeedControllerGroup(new VictorSP(Constants.rightDrivePort1), new VictorSP(Constants.rightDrivePort2));
+    public final static SpeedControllerGroup rightDrive = new SpeedControllerGroup(new VictorSP(Constants.rightDrivePort1), new VictorSP(Constants.rightDrivePort2));
 
     //differential drive for the robot
-    private final DifferentialDrive drive = new DifferentialDrive(leftDrive, rightDrive);
+    public final static DifferentialDrive drive = new DifferentialDrive(leftDrive, rightDrive);
 
     //left side encoder
-    private final Encoder leftEncoder = new Encoder(Constants.leftEncoderPort1, Constants.leftEncoderPort2, Constants.leftEncoderReversed, CounterBase.EncodingType.k1X);
+    public final static Encoder leftEncoder = new Encoder(Constants.leftEncoderPort1, Constants.leftEncoderPort2, Constants.leftEncoderReversed, CounterBase.EncodingType.k1X);
 
     //right side encoder
-    private final Encoder rightEncoder = new Encoder(Constants.rightEncoderPort1, Constants.rightEncoderPort2, Constants.rightEncoderReversed, CounterBase.EncodingType.k1X);
+    public final static Encoder rightEncoder = new Encoder(Constants.rightEncoderPort1, Constants.rightEncoderPort2, Constants.rightEncoderReversed, CounterBase.EncodingType.k1X);
 
     //gyro
     ADXRS450_Gyro gyro = new ADXRS450_Gyro(SPI.Port.kOnboardCS0);
@@ -52,7 +54,7 @@ public class DriveTrain extends SubsystemBase{
     @Override
     public void periodic(){
         //update the odometry
-        odometry.update(gyro.getRotation2d(), leftEncoder.getDistance(), rightEncoder.getDistance());
+        odometry.update(gyro.getRotation2d(), -leftEncoder.getDistance(), -rightEncoder.getDistance());
     }
 
     //returns the pose
@@ -62,7 +64,7 @@ public class DriveTrain extends SubsystemBase{
 
     //return wheel speeds of the robot
     public DifferentialDriveWheelSpeeds getWheelSpeeds(){
-        return new DifferentialDriveWheelSpeeds(leftEncoder.getRate(), rightEncoder.getRate());
+        return new DifferentialDriveWheelSpeeds(-leftEncoder.getRate(), -rightEncoder.getRate());
     }
     //reset odometry to given pose
     public void resetOdometry(Pose2d pose){
@@ -87,7 +89,7 @@ public class DriveTrain extends SubsystemBase{
     }
     //get average encoder distance
     public double getAverageEncoderDistance(){
-        return (leftEncoder.getDistance() + rightEncoder.getDistance()) / 2.0;
+        return (-leftEncoder.getDistance() + -rightEncoder.getDistance()) / 2.0;
     }
     //return left encoder
     public Encoder getLeftEncoder(){
@@ -113,4 +115,6 @@ public class DriveTrain extends SubsystemBase{
     public double getTurnRate(){
         return -gyro.getRate();
     }
+
+    
 }
