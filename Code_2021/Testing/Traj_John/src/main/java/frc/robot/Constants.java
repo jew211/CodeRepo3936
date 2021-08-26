@@ -5,6 +5,7 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.kinematics.DifferentialDriveKinematics;
+import edu.wpi.first.wpilibj.util.Units;
 
 /**
  * The Constants class provides a convenient place for teams to hold robot-wide
@@ -20,9 +21,9 @@ import edu.wpi.first.wpilibj.kinematics.DifferentialDriveKinematics;
 
 
 public final class Constants {
-    public static final double ksVolts = 0.22;
-    public static final double kvVoltSecondsPerMeter = 1.98;
-    public static final double kaVoltSecondsSquaredPerMeter = 0.2;
+    public static final double ksVolts = 0.925;
+    public static final double kvVoltSecondsPerMeter = 1.53;
+    public static final double kaVoltSecondsSquaredPerMeter = 0.0154;
     
     public static final double kPDriveVel = 8.5;
     
@@ -53,7 +54,7 @@ public final class Constants {
     public static int leftEncoder2 = 3;
     public static boolean kLeftEncoderReversed = false;
 
-    public static double kEncoderDistancePerPulse = 10;
+    public static double kEncoderDistancePerPulse = (2 * Math.PI * Units.inchesToMeters(3)) / 2048;
     
 }
 
