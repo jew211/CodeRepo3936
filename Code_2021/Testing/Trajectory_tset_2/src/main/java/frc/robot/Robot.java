@@ -12,6 +12,9 @@ import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.subsystems.DriveTrain;
 import edu.wpi.first.wpilibj.VictorSP;
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.Talon;
+
+import edu.wpi.first.wpilibj.Spark;
 
 import edu.wpi.first.cameraserver.CameraServer;
 
@@ -26,9 +29,14 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 public class Robot extends TimedRobot {
   private Command m_autonomousCommand;
 
+  Spark lights = new Spark(7);
+
   private RobotContainer m_robotContainer;
 
   Joystick driver = new Joystick(0);
+  VictorSP lift1 = new VictorSP(4);
+  VictorSP lift2 = new VictorSP(5);
+  Talon intake = new Talon(6);
 
   /**
    * This function is run when the robot is first started up and should be used for any
@@ -65,7 +73,9 @@ public class Robot extends TimedRobot {
   public void disabledInit() {}
 
   @Override
-  public void disabledPeriodic() {}
+  public void disabledPeriodic() {
+    lights.set(.61);
+  }
 
   /** This autonomous runs the autonomous command selected by your {@link RobotContainer} class. */
   @Override
@@ -81,6 +91,12 @@ public class Robot extends TimedRobot {
     CommandScheduler.getInstance().run();
     SmartDashboard.putNumber("LeftEncoder", -DriveTrain.leftEncoder.getDistance());
     SmartDashboard.putNumber("RightEncoder", -DriveTrain.rightEncoder.getDistance());
+    lights.set(.73);
+
+    //galactic search specific code
+    lift1.set(.5);
+    lift2.set(-.5);
+    intake.set(.5);
   }
 
   @Override
@@ -99,9 +115,29 @@ public class Robot extends TimedRobot {
   public void teleopPeriodic() {
 
     //simple tank drive
-    DriveTrain.leftDrive.set((-driver.getRawAxis(1) * .5));
+    DriveTrain.leftDrive.set((-driver.getRawAxis(1)));
 
-    DriveTrain.rightDrive.set((-driver.getRawAxis(5) * .5));
+    DriveTrain.rightDrive.set((-driver.getRawAxis(5)));
+
+    if(driver.getRawButton(1)){
+      intake.set(.5);
+    } else if(driver.getRawButton(4)){
+      intake.set(-.5);
+    } else {
+      intake.set(0);
+    }
+
+    if(driver.getRawButton(5)){
+      lift1.set(1);
+      lift2.set(-1);
+    } else if(driver.getRawButton(6)){
+      lift1.set(-1);
+      lift2.set(1);
+    } else {
+      lift1.set(0);
+      lift2.set(0);
+    }
+
   }
 
   @Override

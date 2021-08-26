@@ -82,7 +82,7 @@ public class RobotContainer {
         //apply the voltage constraint
         .addConstraint(autoVoltageContstraint);
 
-        String trajectoryJSON = "paths/Unnamed.wpilib.json";
+        String trajectoryJSON = "paths/galacticSearch.wpilib.json";
         Trajectory trajectory = new Trajectory();
              try {
                   Path trajectoryPath = Filesystem.getDeployDirectory().toPath().resolve(trajectoryJSON);
