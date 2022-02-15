@@ -1,0 +1,16 @@
+
+MAKE SURE YOU HAVE PYTHON 3 AND PIP INSTALLED
+https://www.python.org/
+	- Click on download
+	- If you are having issues with PIP follow this video
+	https://www.youtube.com/watch?v=Jw_MuM2BOuI
+
+open powershell run
+pip install frc-characterization
+
+to start a new characterization
+from powershell run
+frc-characterization drive new
+
+refer here for how to run it because im not typing it out rn
+https://docs.wpilib.org/en/stable/docs/software/wpilib-tools/robot-characterization/introduction.html#introduction-to-robot-characterization

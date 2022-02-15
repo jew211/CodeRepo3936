@@ -13,41 +13,55 @@ import edu.wpi.first.wpilibj.kinematics.DifferentialDriveOdometry;
 import edu.wpi.first.wpilibj.kinematics.DifferentialDriveWheelSpeeds;
 import edu.wpi.first.wpilibj.util.Units;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-
-import com.ctre.phoenix.motorcontrol.ControlMode;
-import com.ctre.phoenix.motorcontrol.can.TalonSRX;
+import edu.wpi.first.wpilibj.VictorSP;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+//import com.ctre.phoenix.motorcontrol.ControlMode;
+//import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.kauailabs.navx.frc.AHRS;
+
+import frc.robot.values;
 
 
 public class Drivetrain extends SubsystemBase {
-     TalonSRX leftMaster = new TalonSRX(0);
-     TalonSRX rightMaster = new TalonSRX(2);
+     VictorSP leftMaster = new VictorSP(values.leftMasterPort);
+     VictorSP rightMaster = new VictorSP(values.rightMasterPort);
 
-     TalonSRX leftSlave = new TalonSRX(1);
-     TalonSRX rightSlave = new TalonSRX(3);
+     VictorSP leftSlave = new VictorSP(values.leftSlavePort);
+     VictorSP rightSlave = new VictorSP(values.rightSlavePort);
 
-     Encoder rightEncoder = new Encoder(0,1);
-     Encoder leftEncoder = new Encoder(2, 3);
+     Encoder rightEncoder = new Encoder(values.rightEncoder1,values.rightEncoder2);
+     public Encoder leftEncoder = new Encoder(values.leftEncoder1, values.leftEncoder2);
 
-     AHRS gyro = new AHRS(SPI.Port.kMXP); //gyro object, check for specific gyro for correct
+     public static AHRS gyro = new AHRS(SPI.Port.kMXP); //gyro object, check for specific gyro for correct
 
-     DifferentialDriveKinematics kinematics = new DifferentialDriveKinematics(Units.inchesToMeters(28));
+     DifferentialDriveKinematics kinematics = new DifferentialDriveKinematics(Units.inchesToMeters(values.trackWidthInches));  //TRACK WIDTH IN METERS, CONVERTING WITH UNITS CLASS
      DifferentialDriveOdometry odometry = new DifferentialDriveOdometry(getHeading());
 
      Pose2d pose; //stores position of the robot
 
-    SimpleMotorFeedforward feedforward = new SimpleMotorFeedforward(0.268, 1.89, .243);  //NOT OUR VALUES, EXAMPLES
+    SimpleMotorFeedforward feedforward = new SimpleMotorFeedforward(values.staticGain, values.velocityGain, values.accelGain);  //NOT OUR VALUES, EXAMPLES, STATIC GAIN, VELOCITY GAIN,  ACCELERATION GAIN
 
-    PIDController leftPIDController = new PIDController(9.95, 0 , 0);
-    PIDController rightPIDController = new PIDController(9.95, 0 , 0);
+    PIDController leftPIDController = new PIDController(values.leftKP, values.leftKI , values.leftKD);
+    PIDController rightPIDController = new PIDController(values.rightKP, values.rightKI , values.rightKD);
 
 
  public Drivetrain(){
-     leftSlave.follow(leftMaster);
-     rightSlave.follow(rightMaster); //sets the slaves to follow the masters
 
-     rightMaster.setInverted(true); //sets right to invert
+     rightMaster.setInverted(true);
+     rightSlave.setInverted(true); //sets right to invert
      leftMaster.setInverted(false);
+     leftSlave.setInverted(false);
+     leftEncoder.setReverseDirection(false);
+     rightEncoder.setReverseDirection(true);
+
+     leftEncoder.reset();
+     rightEncoder.reset();
+     gyro.calibrate();
+
+     leftEncoder.setDistancePerPulse((2 * Math.PI * Units.inchesToMeters(3)) / 2048);
+     rightEncoder.setDistancePerPulse((2 * Math.PI * Units.inchesToMeters(3)) / 2048);
+
+     
  }
 
  public Rotation2d getHeading(){
@@ -77,11 +91,22 @@ public class Drivetrain extends SubsystemBase {
         return pose;
  }
  public void setOutput(double leftVolts, double rightVolts){
-        leftMaster.set(ControlMode.PercentOutput, leftVolts / 12);
-        rightMaster.set(ControlMode.PercentOutput, rightVolts / 12);
+        leftMaster.set(leftVolts / 12);
+        leftSlave.set(leftVolts / 12);
+        rightMaster.set(rightVolts / 12);
+        rightSlave.set(rightVolts / 12);
  }
     @Override
     public void periodic() {
         pose = odometry.update(getHeading(), getSpeeds().rightMetersPerSecond, getSpeeds().leftMetersPerSecond);
+        SmartDashboard.putNumber("PoseX", getPose().getX());
+        SmartDashboard.putNumber("PoseY", getPose().getY());
+        SmartDashboard.putNumber("leftEncoder", leftEncoder.getDistance());
+        SmartDashboard.putNumber("rightEncoder", rightEncoder.getDistance());
+        SmartDashboard.putNumber("Gyro Pitch", gyro.getPitch());
+        SmartDashboard.putNumber("Gyro Roll", gyro.getRoll());
+        SmartDashboard.putNumber("Gyro Yaw", gyro.getYaw());
+        SmartDashboard.putNumber("Gyro Angle", gyro.getAngle());
+        SmartDashboard.putNumber("GyroRoll", gyro.getRoll());
     }
 }

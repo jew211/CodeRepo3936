@@ -1,74 +1,18 @@
 <xml version="1.0">
 <dashboard>
-	<static-widget class="edu.wpi.first.smartdashboard.gui.elements.Label">
-		<location x="62" y="185"/>
-		<width>80</width>
-		<height>36</height>
-		<property name="Text" value="Connected?"/>
-	</static-widget>
-	<static-widget class="edu.wpi.first.smartdashboard.gui.elements.ConnectionIndicator">
-		<location x="66" y="215"/>
-		<width>72</width>
-		<height>67</height>
-	</static-widget>
 	<static-widget class="edu.wpi.first.smartdashboard.gui.elements.CameraServerViewer">
-		<location x="1131" y="13"/>
-		<width>770</width>
-		<height>682</height>
+		<location x="448" y="50"/>
+		<width>908</width>
+		<height>717</height>
 		<property name="Camera Choice" value=""/>
 	</static-widget>
-	<widget field="Number of changes per turn" type="String" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
-		<location x="8" y="149"/>
+	<widget field="RightEncoder" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="0" y="21"/>
 	</widget>
-	<widget field="Detected Color" type="String" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
-		<location x="7" y="113"/>
-	</widget>
-	<widget field="Confidence" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
-		<location x="10" y="84"/>
-	</widget>
-	<widget field="Blue" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
-		<location x="16" y="56"/>
-	</widget>
-	<widget field="Green" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
-		<location x="6" y="32"/>
-	</widget>
-	<widget field="Red" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
-		<location x="16" y="9"/>
-	</widget>
-	<widget field="Dump" type="String" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
-		<location x="795" y="135"/>
-	</widget>
-	<widget field="Pixy" type="String" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
-		<location x="806" y="75"/>
-	</widget>
-	<widget field="Approach" type="String" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
-		<location x="781" y="101"/>
-	</widget>
-	<widget field="Left Turn" type="String" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
-		<location x="774" y="48"/>
-		<height>22</height>
-	</widget>
-	<widget field="Right_Turn" type="String" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
-		<location x="766" y="26"/>
-	</widget>
-	<widget field="State_count" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
-		<location x="961" y="12"/>
-	</widget>
-	<widget field="Auto Init" type="String" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
-		<location x="779" y="4"/>
-	</widget>
-	<widget field="Left" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
-		<location x="275" y="18"/>
-	</widget>
-	<widget field="RGB_Value" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
-		<location x="474" y="8"/>
-	</widget>
-	<widget field="Right" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
-		<location x="269" y="-5"/>
+	<widget field="LeftEncoder" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="0" y="0"/>
 	</widget>
 </dashboard>
 <live-window>
 </live-window>
-	<hidden field="Right_Test"/>
-	<hidden field="left_Test"/>
 </xml>
