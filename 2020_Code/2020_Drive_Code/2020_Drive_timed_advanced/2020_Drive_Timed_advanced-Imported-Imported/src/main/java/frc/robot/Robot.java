@@ -30,8 +30,13 @@ import edu.wpi.first.wpilibj.DriverStation; //Allows us to get the gamedata
 import com.revrobotics.ColorMatch; //Allows to match a color to a set coloe
 import com.revrobotics.ColorMatchResult; //Allows to match the color to a set color
 import com.revrobotics.ColorSensorV3; //Allows use of the color senxsor
+<<<<<<< HEAD
 //CTRE Imports
 import com.ctre.phoenix.motorcontrol.ControlMode;
+=======
+import com.ctre.phoenix.motorcontrol.ControlMode;
+//CTRE Imports
+>>>>>>> 4196fb29353576b0325f94a453102412e5da0fb0
 import com.ctre.phoenix.motorcontrol.can.TalonSRX; //Allows use of the TalonSRX Controllers
 import com.ctre.phoenix.motorcontrol.can.VictorSPX; //Allows use of the VictorSPX controllers
 
@@ -63,11 +68,18 @@ public class Robot extends TimedRobot {
   private final ColorMatch Pizza_Sensor_Match = new ColorMatch();
 
   //Declare the targets for the color sensor
+<<<<<<< HEAD
  // private final Color kBlueTarget = ColorMatch.makeColor(0.143, 0.427, 0.429);
  // private final Color kGreenTarget = ColorMatch.makeColor(0.197, 0.561, 0.240);
   //private final Color kRedTarget = ColorMatch.makeColor(0.561, 0.232, 0.114);
   //private final Color kYellowTarget = ColorMatch.makeColor(0.361, 0.524, 0.113);
 
+=======
+  private final Color kBlueTarget = ColorMatch.makeColor(0.143, 0.427, 0.429);
+  private final Color kGreenTarget = ColorMatch.makeColor(0.197, 0.561, 0.240);
+  private final Color kRedTarget = ColorMatch.makeColor(0.561, 0.232, 0.114);
+  private final Color kYellowTarget = ColorMatch.makeColor(0.361, 0.524, 0.113);
+>>>>>>> 4196fb29353576b0325f94a453102412e5da0fb0
 
 
   //Joystick Setup
@@ -144,10 +156,17 @@ public class Robot extends TimedRobot {
     rightDrive.setInverted(true);
 
     //add the matches for the color sensor
+<<<<<<< HEAD
    // Pizza_Sensor_Match.addColorMatch(kBlueTarget);
     //Pizza_Sensor_Match.addColorMatch(kGreenTarget);
     //Pizza_Sensor_Match.addColorMatch(kRedTarget);
     //Pizza_Sensor_Match.addColorMatch(kYellowTarget);
+=======
+    Pizza_Sensor_Match.addColorMatch(kBlueTarget);
+    Pizza_Sensor_Match.addColorMatch(kGreenTarget);
+    Pizza_Sensor_Match.addColorMatch(kRedTarget);
+    Pizza_Sensor_Match.addColorMatch(kYellowTarget);
+>>>>>>> 4196fb29353576b0325f94a453102412e5da0fb0
 
     SmartDashboard.putNumber("Right", 0);
     SmartDashboard.putNumber("Left", 0);
@@ -381,7 +400,11 @@ public class Robot extends TimedRobot {
     Color detectedColor = Pizza_Sensor.getColor();
     ColorMatchResult match = Pizza_Sensor_Match.matchClosestColor(detectedColor);
     String colorString;
+<<<<<<< HEAD
     /*if (match.color == kBlueTarget) {
+=======
+    if (match.color == kBlueTarget) {
+>>>>>>> 4196fb29353576b0325f94a453102412e5da0fb0
       colorString = "Blue";
     } else if (match.color == kRedTarget) {
       colorString = "Red";
@@ -392,14 +415,21 @@ public class Robot extends TimedRobot {
     } else {
       colorString = "Unknown";
    }
+<<<<<<< HEAD
    */
+=======
+>>>>>>> 4196fb29353576b0325f94a453102412e5da0fb0
 
    //Display for the color sensor, Manual Counting as temp
     SmartDashboard.putNumber("Red", detectedColor.red);
     SmartDashboard.putNumber("Green", detectedColor.green);
     SmartDashboard.putNumber("Blue", detectedColor.blue);
     SmartDashboard.putNumber("Confidence", match.confidence);
+<<<<<<< HEAD
    // SmartDashboard.putString("Detected Color", colorString);
+=======
+    SmartDashboard.putString("Detected Color", colorString);
+>>>>>>> 4196fb29353576b0325f94a453102412e5da0fb0
 
     //Displaying because nobody will remember how many times is changes per turn, this includes me.
     SmartDashboard.putString("Number of changes per turn", "8");
