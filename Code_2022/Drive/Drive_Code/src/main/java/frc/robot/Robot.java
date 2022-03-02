@@ -136,10 +136,10 @@ public class Robot extends TimedRobot {
     */
 
 
-    climb1.set(manip.getRawAxis(ControlMap.climbControl));
-    climb2.set(-manip.getRawAxis(ControlMap.climbControl));
-    climb3.set(manip.getRawAxis(ControlMap.climbControl));
-    climb4.set(-manip.getRawAxis(ControlMap.climbControl));
+    climb1.set(manip.getRawAxis(ControlMap.climbControl) * .5);
+    climb2.set(-manip.getRawAxis(ControlMap.climbControl) * .5);
+    climb3.set(manip.getRawAxis(ControlMap.climbControl) * .5);
+    climb4.set(-manip.getRawAxis(ControlMap.climbControl) * .5);
 
     winch1.set(ControlMode.PercentOutput, manip.getRawAxis(ControlMap.winchControl));
     winch2.set(ControlMode.PercentOutput, manip.getRawAxis(ControlMap.winchControl));
