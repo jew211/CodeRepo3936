@@ -48,9 +48,12 @@ public class Robot extends TimedRobot {
     //Climb Bar Motors
     CANSparkMax bar1 = new CANSparkMax(RobotMap.climbbar1, com.revrobotics.CANSparkMaxLowLevel.MotorType.kBrushed);
     CANSparkMax bar2 = new CANSparkMax(RobotMap.climbbar2, com.revrobotics.CANSparkMaxLowLevel.MotorType.kBrushed);
+    VictorSPX winch1 = new VictorSPX(RobotMap.winch1);
+    VictorSPX winch2 = new VictorSPX(RobotMap.winch2);
 
     //Controller(s)
     Joystick driver = new Joystick(ControlMap.driverPort);
+    Joystick manip = new Joystick(ControlMap.manipPort);
 
     //pneumatics
     Compressor compressor = new Compressor(1, PneumaticsModuleType.REVPH ); 
@@ -84,34 +87,42 @@ public class Robot extends TimedRobot {
     SmartDashboard.putBoolean("Compressor Enabled ", compressor.enabled());
     SmartDashboard.putNumber("Pressure Switch Open", compressor.getPressure());
      //Drive Base Code
-    leftDrive1.set(ControlMode.PercentOutput, driver.getRawAxis(ControlMap.left_drive));
-    leftDrive2.set(ControlMode.PercentOutput, driver.getRawAxis(ControlMap.left_drive));
-    rightDrive1.set(ControlMode.PercentOutput, driver.getRawAxis(ControlMap.right_drive));
-    rightDrive2.set(ControlMode.PercentOutput, driver.getRawAxis(ControlMap.right_drive));
+
+     //Deadband loop
+     if(driver.getRawAxis(ControlMap.left_drive) >= .05 || driver.getRawAxis(ControlMap.left_drive) <= -.05){
+      leftDrive1.set(ControlMode.PercentOutput, driver.getRawAxis(ControlMap.left_drive));
+      leftDrive2.set(ControlMode.PercentOutput, driver.getRawAxis(ControlMap.left_drive));
+     }
+     else{
+       leftDrive1.set(ControlMode.PercentOutput, 0);
+       leftDrive2.set(ControlMode.PercentOutput, 0);
+     }
+     if(driver.getRawAxis(ControlMap.right_drive) >= .05 || driver.getRawAxis(ControlMap.right_drive) <= -.05){
+      rightDrive1.set(ControlMode.PercentOutput, driver.getRawAxis(ControlMap.left_drive));
+      rightDrive2.set(ControlMode.PercentOutput, driver.getRawAxis(ControlMap.left_drive));
+     } else{
+       rightDrive1.set(ControlMode.PercentOutput, 0);
+       rightDrive1.set(ControlMode.PercentOutput, 0);
+     }
+
+    //rightDrive1.set(ControlMode.PercentOutput, driver.getRawAxis(ControlMap.right_drive));
+    //rightDrive2.set(ControlMode.PercentOutput, driver.getRawAxis(ControlMap.right_drive));
 
     //climb bars
-    if(driver.getRawButton(ControlMap.barsForward)){
-      bar1.set(.5);
-      bar2.set(-.5);
-    }else if(driver.getRawButton(ControlMap.barsBackward)){
-      bar1.set(-.5);
-      bar2.set(.5);
-    }else{
-      bar1.set(0);
-      bar1.set(0); 
-    }
+   //bar1.set(manip.getRawAxis(ControlMap.barControl));
+   //bar2.set(manip.getRawAxis(ControlMap.barControl));
     //climb solenoid
     if(driver.getRawButton(ControlMap.climbLock)){
       climbLock.set(true); 
     }else {
       climbLock.set(false);
     }
-    if(driver.getRawButton(ControlMap.ClimbUp)){
+    /*if(manip.getRawButton(ControlMap.ClimbUp)){
       climb1.set(-1);
       climb2.set(1);
       climb3.set(-1);
       climb4.set(1);
-    } else if(driver.getRawButton(ControlMap.climbDown)){
+    } else if(manip.getRawButton(ControlMap.climbDown)){
       climb1.set(1);
       climb2.set(-1);
       climb3.set(1);
@@ -122,6 +133,16 @@ public class Robot extends TimedRobot {
       climb3.set(0);
       climb4.set(0);
     }
+    */
+
+
+    climb1.set(manip.getRawAxis(ControlMap.climbControl));
+    climb2.set(-manip.getRawAxis(ControlMap.climbControl));
+    climb3.set(manip.getRawAxis(ControlMap.climbControl));
+    climb4.set(-manip.getRawAxis(ControlMap.climbControl));
+
+    winch1.set(ControlMode.PercentOutput, manip.getRawAxis(ControlMap.winchControl));
+    winch2.set(ControlMode.PercentOutput, manip.getRawAxis(ControlMap.winchControl));
   }
   @Override
   public void disabledInit() {}

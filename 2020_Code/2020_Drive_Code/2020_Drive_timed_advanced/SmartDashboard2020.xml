@@ -20,40 +20,5 @@
 	</widget>
 </dashboard>
 <live-window>
-	<widget field="Ungrouped" type="LW Subsystem" class="edu.wpi.first.smartdashboard.livewindow.elements.LWSubsystem">
-		<widget field="Compressor[1]" type="Compressor" class="edu.wpi.first.smartdashboard.livewindow.elements.DigitalOutputController">
-			<location x="87" y="15"/>
-			<height>21</height>
-			<width>131</width>
-		</widget>
-		<widget field="Solenoid[1,0]" type="Solenoid" class="edu.wpi.first.smartdashboard.livewindow.elements.DigitalOutputController">
-			<location x="92" y="36"/>
-			<height>21</height>
-			<width>121</width>
-		</widget>
-		<widget field="VictorSP[1]" type="Motor Controller" class="edu.wpi.first.smartdashboard.livewindow.elements.SpeedController">
-			<location x="6" y="57"/>
-			<height>45</height>
-			<width>295</width>
-		</widget>
-		<widget field="VictorSP[3]" type="Motor Controller" class="edu.wpi.first.smartdashboard.livewindow.elements.SpeedController">
-			<location x="6" y="102"/>
-			<height>45</height>
-			<width>295</width>
-		</widget>
-		<widget field="VictorSP[0]" type="Motor Controller" class="edu.wpi.first.smartdashboard.livewindow.elements.SpeedController">
-			<location x="6" y="147"/>
-			<height>45</height>
-			<width>295</width>
-		</widget>
-		<widget field="VictorSP[2]" type="Motor Controller" class="edu.wpi.first.smartdashboard.livewindow.elements.SpeedController">
-			<location x="6" y="192"/>
-			<height>45</height>
-			<width>295</width>
-		</widget>
-		<location x="0" y="0"/>
-		<width>307</width>
-		<height>243</height>
-	</widget>
 </live-window>
 </xml>

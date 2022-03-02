@@ -17,5 +17,7 @@ public class RobotMap {
 
     public static int pneumaticHubID = 1;
     public static int PDPID = 0;
+    public static int winch1 = 8;
+    public static int winch2 = 9;
     
 }

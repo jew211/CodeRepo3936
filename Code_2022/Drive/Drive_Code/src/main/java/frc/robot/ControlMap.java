@@ -21,13 +21,15 @@ public class ControlMap {
 	public static int climbAxis = right_stick_x;
 
     public static int driverPort = 0;
+    public static int manipPort = 1;
 
     public static int climbLock = right_bumper;
 
     public static int barControl = left_stick_x;
+    public static int winchControl = right_stick_x;
     public static int climbDown = a_button;
     public static int ClimbUp = y_button;
-    public static int barsForward = b_button;
-    public static int barsBackward = x_button;
+    public static int climbControl = left_stick_y;
+
 
 }
