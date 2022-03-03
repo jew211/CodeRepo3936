@@ -69,17 +69,19 @@ public class Robot extends TimedRobot {
   }
 
   @Override
-  public void autonomousInit() {}
+  public void autonomousInit() {
+    ballPop.set(false);
+  }
 
   @Override
   public void autonomousPeriodic() {
     int i = 0; //VARIABLE TO ONLY RUN THE AUTO ONCE
     //LOOP TO WAIT UNTIL PRESSURE IS GAINED
-    if(compressor.getPressure() >= 70){
+    if(compressor.getPressure() >= 45){
       //LOOP TO ONLY RUN AUTO ONCE
       if(i == 0){
         ballPop.set(true); //POP THE BALL OUT
-        driveRobot(-.5, -.5); //DRIVE ROBOT BACKWARDS AT HALF SPEED
+        driveRobot(.5, .5); //DRIVE ROBOT BACKWARDS AT HALF SPEED
         Timer.delay(2); // FOR 2 SECONDS
         driveRobot(0, 0); //STOP THE ROBOT
         i ++; //INCREASE I SO LOOP DOESNT RUN AGAIN
@@ -98,27 +100,19 @@ public class Robot extends TimedRobot {
     //Drive Base Code
 
      //Deadband loop
-     if(driver.getRawAxis(ControlMap.left_drive) >= .05 || driver.getRawAxis(ControlMap.left_drive) <= -.05){
-      leftDrive1.set(ControlMode.PercentOutput, driver.getRawAxis(ControlMap.left_drive));
-      leftDrive2.set(ControlMode.PercentOutput, driver.getRawAxis(ControlMap.left_drive));
-     }
-     else{
-       leftDrive1.set(ControlMode.PercentOutput, 0);
-       leftDrive2.set(ControlMode.PercentOutput, 0);
-     }
-     if(driver.getRawAxis(ControlMap.right_drive) >= .05 || driver.getRawAxis(ControlMap.right_drive) <= -.05){
-      rightDrive1.set(ControlMode.PercentOutput, driver.getRawAxis(ControlMap.left_drive));
-      rightDrive2.set(ControlMode.PercentOutput, driver.getRawAxis(ControlMap.left_drive));
-     } else{
-       rightDrive1.set(ControlMode.PercentOutput, 0);
-       rightDrive1.set(ControlMode.PercentOutput, 0);
-     }
+    rightDrive1.set(ControlMode.PercentOutput, driver.getRawAxis(ControlMap.right_drive));
+    rightDrive2.set(ControlMode.PercentOutput, driver.getRawAxis(ControlMap.right_drive));
+    leftDrive1.set(ControlMode.PercentOutput, driver.getRawAxis(ControlMap.left_drive));
+    leftDrive2.set(ControlMode.PercentOutput, driver.getRawAxis(ControlMap.left_drive));
+
+     SmartDashboard.putNumber("leftDrive", driver.getRawAxis(ControlMap.left_drive));
+     SmartDashboard.putNumber("rightDrive", driver.getRawAxis(ControlMap.right_drive));
 
      //Climb Winch
-    climb1.set(manip.getRawAxis(ControlMap.climbControl) * .5);
-    climb2.set(-manip.getRawAxis(ControlMap.climbControl) * .5);
-    climb3.set(manip.getRawAxis(ControlMap.climbControl) * .5);
-    climb4.set(-manip.getRawAxis(ControlMap.climbControl) * .5);
+    climb1.set(manip.getRawAxis(ControlMap.climbControl));
+    climb2.set(-manip.getRawAxis(ControlMap.climbControl));
+    climb3.set(manip.getRawAxis(ControlMap.climbControl));
+    climb4.set(-manip.getRawAxis(ControlMap.climbControl));
 
      //Arm winch
     winch1.set(ControlMode.PercentOutput, manip.getRawAxis(ControlMap.winchControl));
