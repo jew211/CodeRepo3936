@@ -3,8 +3,8 @@ package frc.robot;
 public class ControlMap { 
     //Set up the controller Maps
     private static int a_button = 1;
-    private static int b_button = 2;
-    private static int x_button = 3;
+    //private static int b_button = 2;
+    //private static int x_button = 3;
     private static int y_button = 4;
     //private static int left_bumper = 5;
     private static int right_bumper = 6;
@@ -15,6 +15,7 @@ public class ControlMap {
     private static int right_stick_x = 4;
     private static int right_stick_y = 5;
 
+    //ASSIGNING DRIVES
     public static int left_drive = left_stick_y;
     public static int right_drive = right_stick_y;
 

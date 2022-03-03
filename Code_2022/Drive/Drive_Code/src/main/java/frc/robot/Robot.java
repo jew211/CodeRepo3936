@@ -1,16 +1,14 @@
-// Copyright (c) FIRST and other WPILib contributors.
-// Open Source Software; you can modify and/or share it under the terms of
-// the WPILib BSD license file in the root directory of this project.
-
+//FRC 3936 2022 ROBOT DRIVE CODE
 package frc.robot;
 
-//CTRE Phoenix Imports
+//CTRE PHOENIX IMPORTS
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 import com.ctre.phoenix.motorcontrol.ControlMode;
-//REV Robotics imports
+//REV ROBOTICS IMPORTS
 import com.revrobotics.CANSparkMax;
 
+//WPILIB IMPORTS
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.motorcontrol.VictorSP;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -18,21 +16,9 @@ import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.Solenoid;
-//import edu.wpi.first.wpilibj.DoubleSolenoid;
+import edu.wpi.first.wpilibj.Timer;
 
-
-/**
- * The VM is configured to automatically run this class, and to call the functions corresponding to
- * each mode, as described in the TimedRobot documentation. If you change the name of this class or
- * the package after creating this project, you must also update the build.gradle file in the
- * project.
- */
 public class Robot extends TimedRobot {
-  /**
-   * This function is run when the robot is first started up and should be used for any
-   * initialization code.
-   */
-
    //drive motors
     TalonSRX leftDrive1 = new TalonSRX(RobotMap.leftDrive1ID);
     TalonSRX leftDrive2 = new TalonSRX(RobotMap.leftDrive2ID);
@@ -57,36 +43,59 @@ public class Robot extends TimedRobot {
 
     //pneumatics
     Compressor compressor = new Compressor(1, PneumaticsModuleType.REVPH ); 
-    Solenoid climbLock = new Solenoid(PneumaticsModuleType.REVPH, 0);
-    //DoubleSolenoid climbHook1 = new DoubleSolenoid(PneumaticsModuleType.REVPH, 1, 2);
-    //DoubleSolenoid climbHook2 = new DoubleSolenoid(PneumaticsModuleType.REVPH, 3, 4);
-    //DoubleSolenoid ball = new DoubleSolenoid(PneumaticsModuleType.REVPH, 5, 6);
+    Solenoid ballPop = new Solenoid(PneumaticsModuleType.REVPH, 0);
+
+    //function to set drive base
+    public void driveRobot(double left, double right){
+      leftDrive1.set(ControlMode.PercentOutput, left);
+      leftDrive2.set(ControlMode.PercentOutput, left);
+
+      rightDrive1.set(ControlMode.PercentOutput, right);
+      rightDrive2.set(ControlMode.PercentOutput, right);
+    }
     
 
   @Override
   public void robotInit() {
+    //Enable the Compressor
     compressor.enableAnalog(100, 120);
   }
 
   @Override
-  public void robotPeriodic() {}
+  public void robotPeriodic() {
+    //Display Compressor Info
+    SmartDashboard.putBoolean("Compressor Enabled ", compressor.enabled()); //DISPLAY IF THE COMPRESSOR IS ON
+    SmartDashboard.putNumber("Pressure Switch Open", compressor.getPressure()); //DISPLAY PRESSURE SWITCH
+  }
 
   @Override
   public void autonomousInit() {}
 
   @Override
-  public void autonomousPeriodic() {}
+  public void autonomousPeriodic() {
+    int i = 0; //VARIABLE TO ONLY RUN THE AUTO ONCE
+    //LOOP TO WAIT UNTIL PRESSURE IS GAINED
+    if(compressor.getPressure() >= 70){
+      //LOOP TO ONLY RUN AUTO ONCE
+      if(i == 0){
+        ballPop.set(true); //POP THE BALL OUT
+        driveRobot(-.5, -.5); //DRIVE ROBOT BACKWARDS AT HALF SPEED
+        Timer.delay(2); // FOR 2 SECONDS
+        driveRobot(0, 0); //STOP THE ROBOT
+        i ++; //INCREASE I SO LOOP DOESNT RUN AGAIN
+      }
+    }
+  }
 
   @Override
-  public void teleopInit() {}
+  public void teleopInit() {
+    compressor.disable(); //SHUT THE COMPRESSOR OFF, WE DONT NEED IT HERE
+  }
 
   @Override
   public void teleopPeriodic() {
-
-    //Display Compressor Info
-    SmartDashboard.putBoolean("Compressor Enabled ", compressor.enabled());
-    SmartDashboard.putNumber("Pressure Switch Open", compressor.getPressure());
-     //Drive Base Code
+     
+    //Drive Base Code
 
      //Deadband loop
      if(driver.getRawAxis(ControlMap.left_drive) >= .05 || driver.getRawAxis(ControlMap.left_drive) <= -.05){
@@ -105,42 +114,13 @@ public class Robot extends TimedRobot {
        rightDrive1.set(ControlMode.PercentOutput, 0);
      }
 
-    //rightDrive1.set(ControlMode.PercentOutput, driver.getRawAxis(ControlMap.right_drive));
-    //rightDrive2.set(ControlMode.PercentOutput, driver.getRawAxis(ControlMap.right_drive));
-
-    //climb bars
-   //bar1.set(manip.getRawAxis(ControlMap.barControl));
-   //bar2.set(manip.getRawAxis(ControlMap.barControl));
-    //climb solenoid
-    if(driver.getRawButton(ControlMap.climbLock)){
-      climbLock.set(true); 
-    }else {
-      climbLock.set(false);
-    }
-    /*if(manip.getRawButton(ControlMap.ClimbUp)){
-      climb1.set(-1);
-      climb2.set(1);
-      climb3.set(-1);
-      climb4.set(1);
-    } else if(manip.getRawButton(ControlMap.climbDown)){
-      climb1.set(1);
-      climb2.set(-1);
-      climb3.set(1);
-      climb4.set(-1);
-    } else {
-      climb1.set(0);
-      climb2.set(0);
-      climb3.set(0);
-      climb4.set(0);
-    }
-    */
-
-
+     //Climb Winch
     climb1.set(manip.getRawAxis(ControlMap.climbControl) * .5);
     climb2.set(-manip.getRawAxis(ControlMap.climbControl) * .5);
     climb3.set(manip.getRawAxis(ControlMap.climbControl) * .5);
     climb4.set(-manip.getRawAxis(ControlMap.climbControl) * .5);
 
+     //Arm winch
     winch1.set(ControlMode.PercentOutput, manip.getRawAxis(ControlMap.winchControl));
     winch2.set(ControlMode.PercentOutput, manip.getRawAxis(ControlMap.winchControl));
   }
