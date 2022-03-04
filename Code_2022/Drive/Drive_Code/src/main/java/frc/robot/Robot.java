@@ -6,7 +6,7 @@ import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 //REV ROBOTICS IMPORTS
-import com.revrobotics.CANSparkMax;
+//import com.revrobotics.CANSparkMax;
 
 //WPILIB IMPORTS
 import edu.wpi.first.wpilibj.TimedRobot;
@@ -17,6 +17,7 @@ import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.cameraserver.CameraServer;
 
 public class Robot extends TimedRobot {
    //drive motors
@@ -32,8 +33,8 @@ public class Robot extends TimedRobot {
     VictorSP climb4 = new VictorSP(RobotMap.climb4);
 
     //Climb Bar Motors
-    CANSparkMax bar1 = new CANSparkMax(RobotMap.climbbar1, com.revrobotics.CANSparkMaxLowLevel.MotorType.kBrushed);
-    CANSparkMax bar2 = new CANSparkMax(RobotMap.climbbar2, com.revrobotics.CANSparkMaxLowLevel.MotorType.kBrushed);
+    //CANSparkMax bar1 = new CANSparkMax(RobotMap.climbbar1, com.revrobotics.CANSparkMaxLowLevel.MotorType.kBrushed);
+    //CANSparkMax bar2 = new CANSparkMax(RobotMap.climbbar2, com.revrobotics.CANSparkMaxLowLevel.MotorType.kBrushed);
     VictorSPX winch1 = new VictorSPX(RobotMap.winch1);
     VictorSPX winch2 = new VictorSPX(RobotMap.winch2);
 
@@ -59,6 +60,8 @@ public class Robot extends TimedRobot {
   public void robotInit() {
     //Enable the Compressor
     compressor.enableAnalog(100, 120);
+    //START THE CAMERA STREAM
+    CameraServer.startAutomaticCapture();
   }
 
   @Override
@@ -70,11 +73,12 @@ public class Robot extends TimedRobot {
 
   @Override
   public void autonomousInit() {
-    ballPop.set(false);
   }
 
   @Override
   public void autonomousPeriodic() {
+    compressor.enableAnalog(65, 70);
+    ballPop.set(false);
     int i = 0; //VARIABLE TO ONLY RUN THE AUTO ONCE
     //LOOP TO WAIT UNTIL PRESSURE IS GAINED
     if(compressor.getPressure() >= 45){
@@ -85,6 +89,7 @@ public class Robot extends TimedRobot {
         Timer.delay(2); // FOR 2 SECONDS
         driveRobot(0, 0); //STOP THE ROBOT
         i ++; //INCREASE I SO LOOP DOESNT RUN AGAIN
+        Timer.delay(13);
       }
     }
   }
@@ -128,7 +133,9 @@ public class Robot extends TimedRobot {
   public void testInit() {}
 
   @Override
-  public void testPeriodic() {}
+  public void testPeriodic() {
+    compressor.enableAnalog(65, 70);
+  }
 
   @Override
   public void simulationInit() {}
