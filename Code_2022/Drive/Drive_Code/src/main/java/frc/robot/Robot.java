@@ -77,11 +77,12 @@ public class Robot extends TimedRobot {
 
   @Override
   public void autonomousPeriodic() {
-    compressor.enableAnalog(65, 70);
+    compressor.enableAnalog(100, 115);
     ballPop.set(false);
     int i = 0; //VARIABLE TO ONLY RUN THE AUTO ONCE
     //LOOP TO WAIT UNTIL PRESSURE IS GAINED
-    if(compressor.getPressure() >= 45){
+    Timer.delay(1);
+    if(compressor.getPressure() >= 55){
       //LOOP TO ONLY RUN AUTO ONCE
       if(i == 0){
         ballPop.set(true); //POP THE BALL OUT
@@ -134,7 +135,7 @@ public class Robot extends TimedRobot {
 
   @Override
   public void testPeriodic() {
-    compressor.enableAnalog(65, 70);
+    compressor.enableAnalog(115, 120);
   }
 
   @Override
