@@ -9,14 +9,14 @@ public class RobotMap {
     public static final int PCH = 3;
     public static final int leftDrive1 = 4;
     public static final int leftDrive2 = 5;
-    public static final int leftIntake = 6;
-    public static final int rightIntake = 7;
-    public static final int winch1 = 8;
-    public static final int winch2 = 9;
-    public static final int winch3 = 10;
-    public static final int winch4 = 11;
-    public static final int rightDrive1 = 12;
-    public static final int rightDrive2 = 13;
+    //public static final int leftIntake = 6; //Probabaly not going to be used
+    public static final int rightIntake = 6; 
+    public static final int winch1 = 7;
+    public static final int winch2 = 8;
+    public static final int winch3 = 9;
+    public static final int winch4 = 10;
+    public static final int rightDrive1 = 11;
+    public static final int rightDrive2 = 12;
 
     //Pneumatics IDs
     public static final int ballPop = 0;

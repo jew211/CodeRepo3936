@@ -12,14 +12,14 @@ import edu.wpi.first.wpilibj.DoubleSolenoid;
 
 public class pneumatics {
     //COMPRESSOR
-    Compressor compressor = new Compressor(RobotMap.PCH, PneumaticsModuleType.REVPH);   
+    public static Compressor compressor = new Compressor(RobotMap.PCH, PneumaticsModuleType.REVPH);   
     
     //BALLPOPPER
-    Solenoid ballPop = new Solenoid(RobotMap.PCH, PneumaticsModuleType.REVPH, RobotMap.ballPop);
+    public static Solenoid ballPop = new Solenoid(RobotMap.PCH, PneumaticsModuleType.REVPH, RobotMap.ballPop);
     //BALLPOPPER RELEASE
-    Solenoid PopRelease = new Solenoid(RobotMap.PCH, PneumaticsModuleType.REVPH, RobotMap.popRelease);
+    public static Solenoid PopRelease = new Solenoid(RobotMap.PCH, PneumaticsModuleType.REVPH, RobotMap.popRelease);
     //LEFTLIFT
-    DoubleSolenoid leftLift = new DoubleSolenoid(RobotMap.PCH, PneumaticsModuleType.REVPH, RobotMap.leftLift1, RobotMap.leftLift2);
+    public static DoubleSolenoid leftLift = new DoubleSolenoid(RobotMap.PCH, PneumaticsModuleType.REVPH, RobotMap.leftLift1, RobotMap.leftLift2);
     //RIGHTLIFT
-    DoubleSolenoid rightLift = new DoubleSolenoid(RobotMap.PCH, PneumaticsModuleType.REVPH, RobotMap.rightLift1, RobotMap.rightLift2);
+    public static DoubleSolenoid rightLift = new DoubleSolenoid(RobotMap.PCH, PneumaticsModuleType.REVPH, RobotMap.rightLift1, RobotMap.rightLift2);
 }
