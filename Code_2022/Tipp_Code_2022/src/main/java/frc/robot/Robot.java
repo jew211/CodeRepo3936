@@ -11,13 +11,15 @@ import edu.wpi.first.wpilibj.TimedRobot;
 //WPILIB IMPORTS
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.PowerDistribution;
-import edu.wpi.first.wpilibj.Timer;
+//import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.cameraserver.CameraServer;
 //FILES
 import frc.robot.Controllables.motors;
 import frc.robot.Controllables.pneumatics;
+//import frc.robot.AutoModes;
 
 /**
  * The VM is configured to automatically run this class, and to call the functions corresponding to
@@ -38,6 +40,9 @@ public class Robot extends TimedRobot {
   //PDP
   PowerDistribution PDP = new PowerDistribution();
 
+  //AUTONOMOUS CHOOSER
+  SendableChooser<AutoModes> autoMode = new SendableChooser<AutoModes>();
+
 
   @Override
   public void robotInit() {
@@ -45,13 +50,29 @@ public class Robot extends TimedRobot {
 
     //START CAMERA
     CameraServer.startAutomaticCapture();
+
+    //MAKE SURE AUTO SOLENOIDS ARE OFF
+    pneumatics.ballPop.set(false);
+    pneumatics.PopRelease.set(false);
+
+    //SET LIFTER SOLENOIDS TO UP
+    lifterUp();
+
+    AutoModes straightBack = new AutoModes(1);
+    AutoModes straightPickUpBall = new AutoModes(2);
+    AutoModes twoBallAuto = new AutoModes(3);
+
+    //AUTO MODES TO DASHBOARD
+   // autoMode.addOption("Straight Back", straightBack);
+    autoMode.addOption("Straight Pick Up Ball", straightPickUpBall);
+    autoMode.addOption("2 Ball Auto", twoBallAuto);
+
+    //SET THE STRAIGHT BACK AS DEFAULT
+    autoMode.setDefaultOption("Straight Back", straightBack);
   }
 
   @Override
   public void robotPeriodic() {
-    //MAKE SURE AUTO SOLENOIDS ARE OFF
-    pneumatics.ballPop.set(false);
-    pneumatics.PopRelease.set(false);
     //OUTPUT STORED PRESSURE
     SmartDashboard.putNumber("Stored Pressure (PSI)", pneumatics.compressor.getPressure());
     //Output POWER INFORMATION
@@ -66,6 +87,8 @@ public class Robot extends TimedRobot {
 
   @Override
   public void autonomousPeriodic() {
+    
+   /* 
     Timer.delay(1); // WAIT 1 SECOND
     //PRESSURE SAFETY
     if(pneumatics.compressor.getPressure() > 90){
@@ -76,6 +99,10 @@ public class Robot extends TimedRobot {
       robotDrive(0,0);
       Timer.delay(15); //WAIT UNTIL END OF AUTO
     }
+    */
+
+    //RUN THE CHOSEN AUTO
+    autoMode.getSelected().run();
   }
 
   @Override
@@ -147,15 +174,16 @@ public class Robot extends TimedRobot {
     motors.leftDrive1.set(ControlMode.PercentOutput, left);
     motors.leftDrive2.set(ControlMode.PercentOutput, left);
 
-    motors.rightDrive1.set(ControlMode.PercentOutput, right);
-    motors.rightDrive2.set(ControlMode.PercentOutput, right);
+    motors.rightDrive1.set(ControlMode.PercentOutput, -right);
+    motors.rightDrive2.set(ControlMode.PercentOutput, -right);
   }
   //Climb Winch Function
   public void climbWinch(double power){
+    //TODO: CHECK CLIMB MOTORS REVERSED
     motors.winch1.set(ControlMode.PercentOutput, power);
     motors.winch2.set(ControlMode.PercentOutput, -power); //MOTORS 2 AND 4 ARE INVERTED
-    motors.winch3.set(ControlMode.PercentOutput, power);
-    motors.winch4.set(ControlMode.PercentOutput, -power);
+    motors.winch3.set(power); 
+    motors.winch4.set(-power);
   }
   //TOP WINCH FUNCTION
   public void topWinch(double power){

@@ -2,6 +2,8 @@ package frc.robot;
 
 public class RobotMap {
 
+    //TODO: CHECK ALL THE CAN IDS, ALIGN THEM WITH WHAT IS ON THE BOARD
+
     //CAN IDS
     public static final int topWinch1 = 0;
     public static final int topWinch2 = 1;
